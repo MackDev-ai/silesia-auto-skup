@@ -16,6 +16,13 @@ const cleanPhone = (value: string) => {
   return /^\+[1-9]\d{7,14}$/.test(normalized) ? normalized : '';
 };
 
+const displayPhone = (value: string) => {
+  const polishNumber = value.match(/^\+48(\d{3})(\d{3})(\d{3})$/);
+  return polishNumber
+    ? `+48 ${polishNumber[1]} ${polishNumber[2]} ${polishNumber[3]}`
+    : value;
+};
+
 const cleanSiteUrl = (value: string) => {
   if (!value) return '';
   try {
@@ -34,6 +41,7 @@ const configuredSiteUrl = cleanSiteUrl(envText('SITE_URL'));
 export const siteConfig = Object.freeze({
   name: envText('COMPANY_NAME') || 'Silesia Auto Skup',
   phone: configuredPhone,
+  phoneDisplay: displayPhone(configuredPhone),
   phoneHref: configuredPhone ? `tel:${configuredPhone}` : '',
   email: envText('CONTACT_EMAIL'),
   siteUrl: configuredSiteUrl,

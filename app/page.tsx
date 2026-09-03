@@ -341,7 +341,7 @@ export default function Home() {
                   googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
                   className="mt-4 flex items-center justify-between gap-3 text-2xl font-black tracking-[-0.04em] text-amber-400"
                 >
-                  {siteConfig.phone} <Phone className="size-6" />
+                  {siteConfig.phoneDisplay} <Phone className="size-6" />
                 </ContactLink>
                 {siteConfig.whatsAppHref && (
                   <ContactLink href={siteConfig.whatsAppHref} kind="whatsapp_click" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white">
