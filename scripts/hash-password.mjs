@@ -42,7 +42,8 @@ function readHiddenPassword() {
 
 const password = await readHiddenPassword();
 if (password.length < 14) throw new Error('Hasło musi mieć co najmniej 14 znaków.');
-const iterations = 210_000;
+// Cloudflare Workers currently reject PBKDF2 iteration counts above 100,000.
+const iterations = 100_000;
 const salt = randomBytes(18).toString('base64url');
 const hash = pbkdf2Sync(password, salt, iterations, 32, 'sha256');
 process.stdout.write(

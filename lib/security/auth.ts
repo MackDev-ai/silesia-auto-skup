@@ -4,6 +4,7 @@ import { requireEnvironment, siteConfig } from '@/lib/config';
 
 export const ADMIN_COOKIE = 'sas_admin_session';
 export const SESSION_TTL_SECONDS = 8 * 60 * 60;
+export const PBKDF2_ITERATIONS = 100_000;
 
 type SessionPayload = {
   email: string;
@@ -59,14 +60,20 @@ export function verifyPassword(password: string, storedHash: string) {
     return false;
   }
   const iterations = Number.parseInt(iterationsRaw, 10);
-  if (!Number.isSafeInteger(iterations) || iterations < 100_000) return false;
+  if (
+    !Number.isSafeInteger(iterations) ||
+    iterations < PBKDF2_ITERATIONS ||
+    iterations > PBKDF2_ITERATIONS
+  ) {
+    return false;
+  }
   const expected = Buffer.from(expectedRaw, 'base64url');
   const actual = pbkdf2Sync(password, salt, iterations, expected.length, 'sha256');
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 
 export function passwordHashForSetup(password: string) {
-  const iterations = 210_000;
+  const iterations = PBKDF2_ITERATIONS;
   const salt = randomBytes(18).toString('base64url');
   const hash = pbkdf2Sync(password, salt, iterations, 32, 'sha256');
   return `pbkdf2_sha256$${iterations}$${salt}$${hash.toString('base64url')}`;

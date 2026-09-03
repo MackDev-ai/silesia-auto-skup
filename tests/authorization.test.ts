@@ -3,7 +3,11 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { POST as manageIp } from '@/app/api/admin/ip-rules/route';
 import { proxy } from '@/proxy';
-import { validMutationOrigin } from '@/lib/security/auth';
+import {
+  passwordHashForSetup,
+  validMutationOrigin,
+  verifyPassword,
+} from '@/lib/security/auth';
 
 afterEach(() => {
   delete process.env.SESSION_SECRET;
@@ -36,5 +40,18 @@ describe('administrator authorization', () => {
       headers: { origin: 'https://attacker.example' },
     });
     expect(validMutationOrigin(request)).toBe(false);
+  });
+
+  it('verifies a Cloudflare-compatible administrator password hash', () => {
+    const hash = passwordHashForSetup('correct horse battery staple');
+
+    expect(verifyPassword('correct horse battery staple', hash)).toBe(true);
+    expect(verifyPassword('wrong password', hash)).toBe(false);
+  });
+
+  it('rejects an unsupported PBKDF2 cost without hashing', () => {
+    const unsupportedHash = 'pbkdf2_sha256$210000$c2FsdA$aGFzaA';
+
+    expect(verifyPassword('any password', unsupportedHash)).toBe(false);
   });
 });
