@@ -9,7 +9,9 @@
     "INFRA_PROVIDER": "cloudflare",
     "DATABASE_SSL": "true",
     "VERIFY_SEARCH_BOTS_DNS": "true",
-    "DATA_RETENTION_DAYS": "30"
+    "DATA_RETENTION_DAYS": "30",
+    "CONTACT_PHONE": "+48503586402",
+    "CONTACT_EMAIL": "lasdarek98@gmail.com"
   },
   "main": "worker.ts",
   "assets": {
