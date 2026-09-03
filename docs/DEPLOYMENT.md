@@ -7,7 +7,9 @@
 3. Ustaw `INFRA_PROVIDER=vercel`, `DATABASE_SSL=true` i połączenie do zarządzanego PostgreSQL.
 4. Wykonaj `npm run db:migrate` z bezpiecznego środowiska CI lub komputera administracyjnego.
 5. Wdróż, ale nie udostępniaj domeny klientom przed checklistą prywatności i testem IP.
-6. Skonfiguruj codzienny cron dla `/api/cron/retention` z sekretem Bearer.
+6. Na Cloudflare codzienny Cron Trigger jest już zapisany w `wrangler.jsonc`
+   (`03:15 UTC`). Dla innego hostingu skonfiguruj codzienne wywołanie
+   `/api/cron/retention` z sekretem Bearer.
 
 ## Własny VPS
 
@@ -66,7 +68,10 @@ Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy
 
 ### 4. Retencja
 
-Codziennie wywołuj `POST /api/cron/retention` z nagłówkiem `Authorization: Bearer <CRON_SECRET>`. Można do tego użyć osobnego Cron Triggera/Workera lub chronionego zadania CI. Nie umieszczaj `CRON_SECRET` w adresie URL.
+Wdrożenie Cloudflare uruchamia retencję codziennie o `03:15 UTC` przez natywny
+Cron Trigger. Na innym hostingu codziennie wywołuj `POST /api/cron/retention` z
+nagłówkiem `Authorization: Bearer <CRON_SECRET>`. Nie umieszczaj
+`CRON_SECRET` w adresie URL.
 
 ### 5. Publikacja
 
