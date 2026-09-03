@@ -15,7 +15,7 @@ describe('public one-page', () => {
 
   it('includes the mobile sticky contact control and responsive image hints', () => {
     const html = renderToStaticMarkup(<Home />);
-    expect(html).toContain('fixed inset-x-4 bottom-4');
+    expect(html).toContain('mobile-contact-bar fixed inset-x-4');
     expect(html).toContain('sizes="100vw"');
   });
 });

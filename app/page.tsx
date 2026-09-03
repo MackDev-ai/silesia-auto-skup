@@ -102,7 +102,7 @@ export default function Home() {
   const phoneEnabled = Boolean(siteConfig.phoneHref);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="min-h-screen w-full overflow-x-hidden bg-background text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -137,9 +137,10 @@ export default function Home() {
             kind={phoneEnabled ? 'phone_click' : undefined}
             googleAdsId={siteConfig.googleAdsId}
             googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 text-sm font-bold backdrop-blur-md transition hover:bg-white hover:text-black"
+            className="inline-flex size-10 shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 text-sm font-bold backdrop-blur-md transition hover:bg-white hover:text-black sm:h-10 sm:w-auto sm:px-4"
+            ariaLabel="Skontaktuj się"
           >
-            Skontaktuj się <ArrowUpRight className="size-4" />
+            <span className="hidden sm:inline">Skontaktuj się</span><ArrowUpRight className="size-4" />
           </ContactLink>
         </div>
       </header>
@@ -157,11 +158,11 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 -z-10 h-52 bg-gradient-to-t from-[#0b0c0b] to-transparent" />
 
         <div className="mx-auto flex min-h-[790px] max-w-[1440px] items-center px-5 pb-20 pt-40 sm:px-8 lg:px-12 lg:pt-32">
-          <div className="max-w-4xl">
+          <div className="min-w-0 max-w-4xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-amber-300">
               <span className="size-1.5 rounded-full bg-amber-400 shadow-[0_0_12px_#fbbf24]" /> Skup aut Śląsk
             </div>
-            <h1 className="max-w-4xl text-[clamp(3.35rem,7.2vw,6.9rem)] font-black uppercase leading-[0.86] tracking-[-0.072em]">
+            <h1 className="hero-title max-w-4xl font-black uppercase">
               Sprzedaj auto<br />
               <span className="text-amber-400">szybko.</span> Bez<br />formalności.
             </h1>
@@ -174,7 +175,7 @@ export default function Home() {
                 kind={phoneEnabled ? 'phone_click' : undefined}
                 googleAdsId={siteConfig.googleAdsId}
                 googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-7 text-sm font-black text-black transition hover:bg-amber-300"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-5 text-[13px] font-black text-black transition hover:bg-amber-300 sm:px-7 sm:text-sm"
               >
                 Porozmawiajmy o Twoim aucie <ArrowRight className="size-4" />
               </ContactLink>
@@ -321,15 +322,15 @@ export default function Home() {
       </section>
 
       <section id="kontakt" className="scroll-mt-10 bg-[#111210] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto grid max-w-[1180px] gap-10 overflow-hidden rounded-[32px] bg-amber-400 p-7 text-black sm:p-10 lg:grid-cols-[1fr_420px] lg:items-center lg:p-14">
-          <div>
+        <div className="mx-auto grid min-w-0 max-w-[1180px] gap-8 overflow-hidden rounded-[28px] bg-amber-400 p-5 text-black sm:gap-10 sm:rounded-[32px] sm:p-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:p-14">
+          <div className="min-w-0">
             <span className="inline-flex items-center gap-2 rounded-full border border-black/15 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.15em]"><MessageCircle className="size-3.5" /> Kontakt</span>
-            <h2 className="mt-6 text-[clamp(3rem,5.5vw,5.6rem)] font-black uppercase leading-[0.9] tracking-[-0.065em]">Porozmawiajmy<br />o Twoim aucie.</h2>
+            <h2 className="contact-title mt-6 font-black uppercase">Porozmawiajmy<br />o Twoim aucie.</h2>
             <p className="mt-5 max-w-lg text-base font-medium leading-7 text-black/60">
               Nie zbieramy danych przez formularze. Docelowo kontakt będzie odbywał się telefonicznie lub przez WhatsApp.
             </p>
           </div>
-          <div className="rounded-[24px] bg-[#111210] p-7 text-white sm:p-9">
+          <div className="min-w-0 rounded-[22px] bg-[#111210] p-5 text-white sm:rounded-[24px] sm:p-9">
             {phoneEnabled ? (
               <>
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">Zadzwoń</p>
@@ -351,7 +352,7 @@ export default function Home() {
             ) : (
               <div className="py-7 text-center">
                 <span className="mx-auto grid size-14 place-items-center rounded-full bg-white/10 text-amber-400"><Phone className="size-6" /></span>
-                <p className="mt-5 text-lg font-extrabold">Dane kontaktowe w przygotowaniu</p>
+                <p className="mt-5 break-words text-lg font-extrabold">Dane kontaktowe w przygotowaniu</p>
                 <p className="mt-2 text-sm leading-6 text-white/45">Numer telefonu zostanie uruchomiony po uzupełnieniu konfiguracji firmy.</p>
               </div>
             )}
@@ -359,7 +360,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-[#111210] px-5 pb-28 pt-10 text-white sm:px-8 lg:px-12 lg:pb-8">
+      <footer className="bg-[#111210] px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-10 text-white sm:px-8 lg:px-12 lg:pb-8">
         <div className="mx-auto max-w-[1340px]">
           <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-12 sm:flex-row sm:items-end">
             <a href="#start" className="flex items-center gap-3">
@@ -396,7 +397,7 @@ export default function Home() {
         kind={phoneEnabled ? 'phone_click' : undefined}
         googleAdsId={siteConfig.googleAdsId}
         googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
-        className="fixed inset-x-4 bottom-4 z-50 flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-sm font-black text-black shadow-2xl shadow-black/30 lg:hidden"
+        className="mobile-contact-bar fixed inset-x-4 z-50 flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-sm font-black text-black shadow-2xl shadow-black/30 lg:hidden"
         ariaLabel={phoneEnabled ? `Zadzwoń do ${siteConfig.name}` : 'Przejdź do sekcji kontaktowej'}
       >
         {phoneEnabled ? 'Zadzwoń teraz' : 'Skontaktuj się'} <Phone className="size-4" />

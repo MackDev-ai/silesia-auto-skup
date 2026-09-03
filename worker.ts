@@ -7,7 +7,7 @@ type WorkerContext = {
   passThroughOnException(): void;
 };
 
-export default {
+const worker = {
   async fetch(
     request: Request,
     env: Record<string, unknown>,
@@ -25,3 +25,5 @@ export default {
     });
   },
 };
+
+export default worker;
