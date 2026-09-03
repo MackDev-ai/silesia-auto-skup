@@ -10,9 +10,20 @@
     "DATABASE_SSL": "true",
     "VERIFY_SEARCH_BOTS_DNS": "true",
     "DATA_RETENTION_DAYS": "30",
+    "SITE_URL": "https://silesiaautoskup.pl",
     "CONTACT_PHONE": "+48503586402",
     "CONTACT_EMAIL": "lasdarek98@gmail.com"
   },
+  "routes": [
+    {
+      "pattern": "silesiaautoskup.pl",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.silesiaautoskup.pl",
+      "custom_domain": true
+    }
+  ],
   "main": "worker.ts",
   "assets": {
     "directory": "dist/client",
