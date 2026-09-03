@@ -60,6 +60,7 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
 | Zmienna | Znaczenie |
 |---|---|
 | `COMPANY_NAME` | Nazwa firmy; domyślnie „Silesia Auto Skup” |
+| `COMPANY_LEGAL_NAME` | Imię i nazwisko właściciela lub pełna nazwa prawna |
 | `CONTACT_PHONE` | Telefon w formacie E.164, np. `+48...`; pusty = kontakt w przygotowaniu |
 | `CONTACT_EMAIL` | Prawdziwy e-mail firmy; pusty nie jest publicznie wyświetlany |
 | `SITE_URL` | Pełny origin, np. `https://domena.pl`; steruje canonical i sitemapą |

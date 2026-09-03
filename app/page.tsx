@@ -78,6 +78,7 @@ function structuredData() {
     ],
   };
   if (siteConfig.siteUrl) business.url = siteConfig.siteUrl;
+  if (siteConfig.legalName) business.legalName = siteConfig.legalName;
   if (siteConfig.phone) business.telephone = siteConfig.phone;
   if (siteConfig.email) business.email = siteConfig.email;
   if (siteConfig.address) business.address = siteConfig.address;
@@ -378,9 +379,9 @@ export default function Home() {
           <div className="grid gap-4 pt-6 text-xs leading-5 text-white/35 sm:grid-cols-[1fr_auto] sm:items-start">
             <div>
               <p>© {new Date().getFullYear()} {siteConfig.name}. Wszelkie prawa zastrzeżone.</p>
-              {(siteConfig.address || siteConfig.nip || siteConfig.email) && (
+              {(siteConfig.legalName || siteConfig.address || siteConfig.nip || siteConfig.email) && (
                 <p className="mt-2">
-                  {[siteConfig.address, siteConfig.nip ? `NIP: ${siteConfig.nip}` : '', siteConfig.email]
+                  {[siteConfig.legalName, siteConfig.address, siteConfig.nip ? `NIP: ${siteConfig.nip}` : '', siteConfig.email]
                     .filter(Boolean)
                     .join(' · ')}
                 </p>

@@ -2,6 +2,7 @@
 # Skopiuj do .dev.vars i nigdy nie commituj pliku z prawdziwymi sekretami.
 
 COMPANY_NAME="Silesia Auto Skup"
+COMPANY_LEGAL_NAME=""
 CONTACT_PHONE=""
 CONTACT_EMAIL=""
 SITE_URL=""

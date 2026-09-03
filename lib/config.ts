@@ -40,6 +40,7 @@ const configuredSiteUrl = cleanSiteUrl(envText('SITE_URL'));
 
 export const siteConfig = Object.freeze({
   name: envText('COMPANY_NAME') || 'Silesia Auto Skup',
+  legalName: envText('COMPANY_LEGAL_NAME'),
   phone: configuredPhone,
   phoneDisplay: displayPhone(configuredPhone),
   phoneHref: configuredPhone ? `tel:${configuredPhone}` : '',
