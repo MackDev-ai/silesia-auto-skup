@@ -18,9 +18,68 @@
 5. Uruchom codziennie `npm run db:retention`, wykonuj szyfrowane `pg_dump` i testuj odtwarzanie.
 6. Panel `/admin` warto dodatkowo ograniczyć VPN-em lub warstwą uwierzytelnienia reverse proxy.
 
-## Cloudflare
+## Cloudflare Workers — wybrany wariant
 
-Standardowy kod używa Node.js Proxy i PostgreSQL. Przy wdrożeniu na Workers użyj aktualnego adaptera Next.js/OpenNext, połączenia PostgreSQL przez Hyperdrive lub bezpieczny sterownik HTTP oraz `INFRA_PROVIDER=cloudflare`. Przed wdrożeniem wykonaj test integracyjny, że `CF-Connecting-IP` pochodzi z platformy i nie jest nadpisywalny przez klienta. Nie wdrażaj tego wariantu bez dostosowania sterownika bazy do ograniczeń wybranego runtime.
+Projekt jest przygotowany do uruchomienia przez vinext, czyli zalecaną przez Cloudflare ścieżkę dla nowych aplikacji Next.js na Workers. Standardowy build Next.js pozostaje dostępny, a konfiguracja Cloudflare znajduje się w `vite.config.ts`, `wrangler.jsonc` i `worker.ts`.
+
+### 1. Kontrola lokalna
+
+Wymagany jest Node.js 22.13 lub nowszy.
+
+```powershell
+npm install
+npm run cf:check
+npm run cf:build
+npm run cf:preview
+```
+
+`cf:preview` uruchamia lokalny runtime Workers na podstawie pliku wygenerowanego w `dist/server/wrangler.json`. Nie publikuje aplikacji.
+
+### 2. PostgreSQL
+
+Utwórz zarządzaną bazę PostgreSQL dostępną przez TLS. Sterownik `postgres` użyty w projekcie jest zgodny z Workers. W pierwszym wdrożeniu `DATABASE_URL` może być sekretem Workera. Hyperdrive można dodać później, gdy istnieje już prawdziwa baza i jej dane połączenia; wymaga to podania aplikacji `connectionString` z bindingu zamiast zwykłego sekretu.
+
+Migrację wykonuj z zaufanego komputera administracyjnego albo chronionego CI, nie podczas obsługi żądania Workera:
+
+```powershell
+$env:DATABASE_URL="postgres://..."
+$env:DATABASE_SSL="true"
+npm run db:migrate
+```
+
+### 3. Sekrety Workers
+
+Nie wpisuj sekretów do `wrangler.jsonc`. Dodaj je przez panel Cloudflare albo CLI:
+
+```powershell
+npx wrangler secret put DATABASE_URL
+npx wrangler secret put IP_HASH_SECRET
+npx wrangler secret put SESSION_SECRET
+npx wrangler secret put ADMIN_EMAIL
+npx wrangler secret put ADMIN_PASSWORD_HASH
+npx wrangler secret put CRON_SECRET
+```
+
+Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy, telefon i identyfikatory Google Ads mogą być zwykłymi zmiennymi Workers, ale do czasu otrzymania prawdziwych wartości pozostają puste. Lokalnie skopiuj `.dev.vars.example` do `.dev.vars`; prawdziwy `.dev.vars` jest ignorowany przez Git.
+
+`wrangler.jsonc` ustawia `INFRA_PROVIDER=cloudflare`. System ufa wtedy wyłącznie adresowi `CF-Connecting-IP` nadpisywanemu przez platformę i pobiera kraj z `CF-IPCountry`. Weryfikacja botów używa reverse DNS oraz forward DNS przez `resolve4`/`resolve6`, które działają w runtime Workers.
+
+### 4. Retencja
+
+Codziennie wywołuj `POST /api/cron/retention` z nagłówkiem `Authorization: Bearer <CRON_SECRET>`. Można do tego użyć osobnego Cron Triggera/Workera lub chronionego zadania CI. Nie umieszczaj `CRON_SECRET` w adresie URL.
+
+### 5. Publikacja
+
+Dopiero po ustawieniu bazy, migracji, sekretów i danych prawnych:
+
+```powershell
+npm run cf:build
+npm run cf:deploy
+```
+
+Polecenie `cf:deploy` tworzy publiczne wdrożenie Workers, dlatego uruchamiaj je wyłącznie po świadomej decyzji właściciela. Ten etap nie został wykonany.
+
+Po wdrożeniu zweryfikuj HTTP 403 dla testowo zablokowanego IP, rzeczywisty `CF-Connecting-IP`, logowanie `/admin`, zapis UTM/GCLID, retencję i brak publicznego dostępu do statystyk.
 
 ## Podłączenie domeny
 

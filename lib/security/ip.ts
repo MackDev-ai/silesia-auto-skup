@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { lookup, reverse } from 'node:dns/promises';
+import { resolve4, resolve6, reverse } from 'node:dns/promises';
 import { isIP } from 'node:net';
 
 import { infrastructureConfig, requireEnvironment } from '@/lib/config';
@@ -96,8 +96,15 @@ export async function verifySearchBot(ip: string, userAgent: string) {
     for (const hostname of hostnames) {
       const lower = hostname.toLowerCase();
       if (!allowedSuffixes.some((suffix) => lower.endsWith(suffix))) continue;
-      const forward = await lookup(hostname, { all: true });
-      if (forward.some((record) => record.address === ip)) {
+      const [ipv4, ipv6] = await Promise.allSettled([
+        resolve4(hostname),
+        resolve6(hostname),
+      ]);
+      const forwardAddresses = [
+        ...(ipv4.status === 'fulfilled' ? ipv4.value : []),
+        ...(ipv6.status === 'fulfilled' ? ipv6.value : []),
+      ];
+      if (forwardAddresses.some((address) => address === ip)) {
         verified = true;
         break;
       }

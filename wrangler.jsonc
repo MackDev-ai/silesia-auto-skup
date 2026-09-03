@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "silesia-auto-skup",
+  "compatibility_date": "2026-09-03",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
+    "INFRA_PROVIDER": "cloudflare",
+    "DATABASE_SSL": "true",
+    "VERIFY_SEARCH_BOTS_DNS": "true",
+    "DATA_RETENTION_DAYS": "30"
+  },
+  "main": "worker.ts",
+  "assets": {
+    "directory": "dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "cache": {
+    "enabled": true
+  },
+  "version_metadata": {
+    "binding": "CF_VERSION_METADATA"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

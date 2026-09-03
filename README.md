@@ -18,7 +18,8 @@ Kod działa samodzielnie na hostingu właściciela. Nie korzysta z Google Analyt
 
 - Next.js 16 / React 19 / TypeScript;
 - PostgreSQL i parametryzowane zapytania przez `postgres`;
-- Next.js Proxy w środowisku Node.js do oceny ruchu przed wyrenderowaniem strony;
+- Next.js Proxy do oceny ruchu przed wyrenderowaniem strony;
+- niezależny build Next.js oraz build vinext dla Cloudflare Workers;
 - własna sesja administratora podpisana HMAC, hasło PBKDF2-SHA256;
 - Tailwind CSS 4;
 - Vitest, Playwright i ESLint;
@@ -161,7 +162,15 @@ Vitest obejmuje reguły `allow/review/block`, białą i czarną listę, UTM/GCLI
 
 ## Wdrożenie
 
-Szczegółowe warianty Vercel, VPS i Cloudflare opisuje `docs/DEPLOYMENT.md`. Najprostszy, w pełni przenośny wariant to własny VPS z kontenerem aplikacji, PostgreSQL i reverse proxy. Konfigurację domeny wykonuje się później; samo ustawienie `SITE_URL` nie zmienia DNS.
+Wybranym środowiskiem jest Cloudflare Workers. Projekt zawiera `wrangler.jsonc`, `vite.config.ts`, własny `worker.ts` z nagłówkami bezpieczeństwa oraz aktualny adapter vinext. Lokalna kontrola wariantu Cloudflare:
+
+```powershell
+npm run cf:check
+npm run cf:build
+npm run cf:preview
+```
+
+`cf:deploy` jest celowo oddzielnym poleceniem i nie zostało uruchomione. Przed nim należy skonfigurować PostgreSQL oraz sekrety Workers. Szczegółowa instrukcja znajduje się w `docs/DEPLOYMENT.md`. Konfigurację domeny wykonuje się później; samo ustawienie `SITE_URL` nie zmienia DNS.
 
 ## Przed publicznym uruchomieniem
 
