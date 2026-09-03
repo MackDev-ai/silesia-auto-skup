@@ -13,6 +13,8 @@ test('mobile viewport exposes the sticky contact CTA', async ({ page }, testInfo
   test.skip(testInfo.project.name !== 'mobile');
   await page.goto('/');
   const sticky = page.getByLabel('Przejdź do sekcji kontaktowej');
+  await expect(sticky).toHaveCount(0);
+  await page.locator('#pojazdy').scrollIntoViewIfNeeded();
   await expect(sticky).toBeVisible();
   await sticky.click();
   await expect(page.locator('#kontakt')).toBeInViewport();
@@ -44,6 +46,7 @@ test('mobile layout has no clipped hero or contact content', async ({ page }, te
       expect(widths.scroll).toBeLessThanOrEqual(widths.client + 1);
     }
 
+    await page.locator('#pojazdy').scrollIntoViewIfNeeded();
     const stickyBox = await page
       .getByLabel('Przejdź do sekcji kontaktowej')
       .boundingBox();

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 
 import { ContactLink } from '@/components/site/contact-link';
+import { MobileContactBar } from '@/components/site/mobile-contact-bar';
 import { siteConfig } from '@/lib/config';
 
 const areas = [
@@ -393,16 +394,13 @@ export default function Home() {
         </div>
       </footer>
 
-      <ContactLink
+      <MobileContactBar
         href={primaryHref}
-        kind={phoneEnabled ? 'phone_click' : undefined}
+        phoneEnabled={phoneEnabled}
+        companyName={siteConfig.name}
         googleAdsId={siteConfig.googleAdsId}
         googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
-        className="mobile-contact-bar fixed inset-x-4 z-50 flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 text-sm font-black text-black shadow-2xl shadow-black/30 lg:hidden"
-        ariaLabel={phoneEnabled ? `Zadzwoń do ${siteConfig.name}` : 'Przejdź do sekcji kontaktowej'}
-      >
-        {phoneEnabled ? 'Zadzwoń teraz' : 'Skontaktuj się'} <Phone className="size-4" />
-      </ContactLink>
+      />
     </main>
   );
 }
