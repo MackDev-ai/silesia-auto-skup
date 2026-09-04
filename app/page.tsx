@@ -19,6 +19,7 @@ import {
 
 import { ContactLink } from '@/components/site/contact-link';
 import { MobileContactBar } from '@/components/site/mobile-contact-bar';
+import { CookieSettingsButton } from '@/components/privacy/cookie-settings-button';
 import { siteConfig } from '@/lib/config';
 
 const areas = [
@@ -387,7 +388,11 @@ export default function Home() {
                     .join(' · ')}
                 </p>
               )}
-              <p className="mt-2">Polityka prywatności firmy — treść do uzupełnienia przed publicznym uruchomieniem strony.</p>
+              <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2" aria-label="Prywatność i dokumenty">
+                <a className="hover:text-white" href="/polityka-prywatnosci">Polityka prywatności</a>
+                <a className="hover:text-white" href="/polityka-cookies">Polityka cookies</a>
+                <CookieSettingsButton className="text-left hover:text-white" />
+              </nav>
             </div>
             <p className="sm:text-right">Skup aut Śląsk · skup samochodów Katowice i okolice</p>
           </div>

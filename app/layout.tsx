@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
+import { ConsentManager } from '@/components/privacy/consent-manager';
 import { siteConfig } from '@/lib/config';
 
 import './globals.css';
@@ -54,17 +54,10 @@ export default function RootLayout({
     <html lang="pl">
       <body className="antialiased">
         {children}
-        {siteConfig.googleAdsId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(siteConfig.googleAdsId)}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-ads-init" strategy="afterInteractive">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('js',new Date());gtag('config','${siteConfig.googleAdsId.replace(/[^A-Z0-9-]/gi, '')}');`}
-            </Script>
-          </>
-        )}
+        <ConsentManager
+          googleAnalyticsId={siteConfig.googleAnalyticsId}
+          googleAdsId={siteConfig.googleAdsId}
+        />
       </body>
     </html>
   );

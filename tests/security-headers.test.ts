@@ -13,6 +13,7 @@ describe('security headers shared by Next.js and Cloudflare Workers', () => {
     );
     expect(contentSecurityPolicy).toContain("default-src 'self'");
     expect(contentSecurityPolicy).toContain("frame-ancestors 'none'");
-    expect(contentSecurityPolicy).not.toContain('google-analytics.com');
+    expect(contentSecurityPolicy).toContain('https://www.googletagmanager.com');
+    expect(contentSecurityPolicy).toContain('https://www.google-analytics.com');
   });
 });

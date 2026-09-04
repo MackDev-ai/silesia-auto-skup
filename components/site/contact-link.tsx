@@ -6,6 +6,7 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    __sasConsent?: { analytics: boolean; marketing: boolean };
   }
 }
 
@@ -41,6 +42,7 @@ export function ContactLink({
       kind === 'phone_click' &&
       googleAdsId &&
       googleAdsLabel &&
+      window.__sasConsent?.marketing === true &&
       typeof window.gtag === 'function'
     ) {
       window.gtag('event', 'conversion', {

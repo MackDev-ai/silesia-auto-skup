@@ -2,7 +2,7 @@
 
 Kompletna, samodzielna aplikacja dla firmy skupującej samochody na Śląsku. Projekt zawiera responsywny one-page, backend monitorowania ruchu, PostgreSQL, punktację ryzyka, wczesne blokowanie żądań, prywatny panel administratora, eksport CSV, migracje, testy i konfigurację Docker.
 
-Kod działa samodzielnie na hostingu właściciela. Nie korzysta z Google Analytics, Hotjara ani płatnego trackera. Integracja Google Ads jest opcjonalna i nieaktywna, dopóki właściciel nie uzupełni identyfikatorów.
+Kod działa samodzielnie na hostingu właściciela. Własny monitoring bezpieczeństwa nie zależy od zewnętrznego trackera. Google Analytics 4 i Google Ads są opcjonalne, nieaktywne bez identyfikatorów i ładowane dopiero po zgodzie użytkownika.
 
 ## Stan wersji roboczej
 
@@ -67,6 +67,7 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
 | `COMPANY_NIP` | NIP dodawany do danych strukturalnych dopiero po uzupełnieniu |
 | `COMPANY_ADDRESS` | Adres działalności |
 | `WHATSAPP_NUMBER` | Numer E.164 aktywujący przycisk WhatsApp |
+| `GOOGLE_ANALYTICS_ID` | Identyfikator strumienia GA4, np. `G-...`; pusty = GA4 wyłączone |
 | `GOOGLE_ADS_ID` | Identyfikator konwersji, np. `AW-...` |
 | `GOOGLE_ADS_PHONE_CONVERSION_LABEL` | Etykieta konwersji kliknięcia w telefon |
 | `DATABASE_URL` | Połączenie z PostgreSQL |
@@ -94,11 +95,23 @@ WHATSAPP_NUMBER="+48XXXXXXXXX"
 
 Po ponownym uruchomieniu przyciski „Skontaktuj się” i mobilny sticky CTA użyją `tel:`. Przycisk WhatsApp zostanie dodany w sekcji kontaktowej. Kliknięcia są zapisywane jako zdarzenia bezpieczeństwa/jakości ruchu bez tworzenia profilu reklamowego.
 
-## Google Ads
+## Zgody, Google Analytics 4 i Google Ads
+
+Baner zgody działa bez zewnętrznego dostawcy. Zapamiętuje osobno zgodę analityczną i marketingową w cookie `sas_cookie_consent` przez 180 dni. Użytkownik może wybrać „Tylko niezbędne”, skonfigurować kategorie oddzielnie lub zmienić wybór przez „Ustawienia cookies” w stopce. Skrypt Google nie jest pobierany przed zgodą (podstawowy wariant Consent Mode).
+
+GA4 uruchamia się dopiero po ustawieniu prawidłowego identyfikatora:
+
+```dotenv
+GOOGLE_ANALYTICS_ID="G-XXXXXXXXXX"
+```
+
+Po wdrożeniu sprawdź w raporcie czasu rzeczywistego GA4, że wejście pojawia się po zgodzie analitycznej, a nie pojawia się po wyborze „Tylko niezbędne”. Nie używaj widoku panelu `/admin` do testu — analityka jest tam celowo wyłączona.
+
+Google Ads:
 
 1. Ustaw `GOOGLE_ADS_ID` i `GOOGLE_ADS_PHONE_CONVERSION_LABEL`.
 2. Wdroż nową wersję aplikacji.
-3. Zweryfikuj konwersję kliknięcia telefonicznego w trybie diagnostycznym Google Ads.
+3. Zaakceptuj kategorię marketingową i zweryfikuj konwersję kliknięcia telefonicznego w trybie diagnostycznym Google Ads.
 4. Parametry `gclid` i wszystkie `utm_*` są zapisywane przez backend w `visits`, razem ze stroną wejścia i referrerem.
 
 System nie dodaje automatycznie wykluczeń IP do Google Ads. Administrator ręcznie wybiera „Zatwierdź do eksportu”, a dopiero później pobiera CSV. Wynik ryzyka nie jest dowodem oszustwa.
@@ -177,12 +190,12 @@ npm run cf:preview
 
 - uzupełnij prawdziwy telefon, e-mail, NIP, adres i nazwę prawną;
 - ustaw docelowe `SITE_URL` oraz rekordy DNS/TLS;
-- przygotuj i zaakceptuj własną politykę prywatności/obowiązek informacyjny;
+- zweryfikuj i zaakceptuj przygotowane wersje `/polityka-prywatnosci` i `/polityka-cookies`;
 - oceń z prawnikiem podstawę, zakres i okres przetwarzania IP — dokumentacja nie jest poradą prawną;
 - ustaw silne, unikalne sekrety i hash hasła;
 - uruchom migracje, retencję, backup i monitoring dostępności;
 - przetestuj poprawność adresu IP za docelowym proxy;
-- przetestuj Google Ads dopiero po wpisaniu własnych identyfikatorów;
+- ustaw własny identyfikator GA4/Google Ads i przetestuj oba warianty zgody;
 - sprawdź telefon, WhatsApp, treści, dane strukturalne, robots i sitemapę na domenie;
 - wykonaj `npm test`, `npm run lint`, `npm run build` oraz Playwright;
 - ręcznie oceń początkowe progi ryzyka na realnym ruchu przed automatycznym blokowaniem agresywnych wzorców.

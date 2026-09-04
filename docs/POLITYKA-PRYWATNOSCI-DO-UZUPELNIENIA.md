@@ -1,18 +1,19 @@
-# Polityka prywatności — materiał do uzupełnienia
+# Weryfikacja prawna przed publikacją
 
-Ten plik nie jest poradą prawną ani gotową polityką do publikacji. Przed publicznym uruchomieniem właściciel firmy powinien przygotować i zatwierdzić własny obowiązek informacyjny, uwzględniający właściwą jurysdykcję oraz rzeczywistą konfigurację hostingu.
+Publiczne projekty dokumentów są już dostępne pod `/polityka-prywatnosci` i `/polityka-cookies`. Ten plik nie jest poradą prawną. Przed publicznym uruchomieniem właściciel powinien zlecić weryfikację treści dla rzeczywistej działalności, umów z dostawcami oraz przyjętej podstawy prawnej.
 
-Do ustalenia i opisania:
+## Do potwierdzenia
 
-- pełne dane administratora danych;
-- cel i podstawa prawna przetwarzania IP, user-agenta, referrera i parametrów kampanii;
-- zakres danych oraz źródło zaufanych danych geograficznych;
-- odbiorcy danych: hosting, baza, operator kopii zapasowych, ewentualnie Google Ads;
-- okres przechowywania (konfiguracja techniczna domyślnie 30 dni dla wizyt);
-- prawa osób i sposób kontaktu;
-- transfery poza EOG, jeśli wynikają z wybranego hostingu;
-- zasady cookies/sesji oraz ocena, czy wymagany jest baner zgody;
-- zabezpieczenia, automatyczna ocena ryzyka i możliwość ręcznej weryfikacji;
-- procedura naruszeń i usuwania danych.
+- pełna nazwa administratora, adres, e-mail do realizacji praw i — po nadaniu — NIP;
+- zgodność podstawy prawnej własnego monitoringu IP, UTM i gclid z rzeczywistym sposobem korzystania z raportów;
+- zawarcie wymaganych umów powierzenia z Cloudflare, Neon i pozostałymi dostawcami;
+- mechanizmy transferu poza EOG u faktycznie używanych dostawców;
+- faktyczne okresy retencji, backupów, logów Cloudflare i danych w usługach Google;
+- konfiguracja GA4 ograniczająca zakres danych oraz wyłączająca funkcje, które nie są potrzebne;
+- aktualny wykaz cookies po uruchomieniu prawdziwych identyfikatorów GA4/Google Ads;
+- sposób obsługi żądań osób i sprzeciwów wobec przetwarzania;
+- okresowy ręczny przegląd blokad, z uwzględnieniem NAT, sieci komórkowych i współdzielonych IP.
 
-Monitoring w tej aplikacji służy bezpieczeństwu oraz analizie jakości ruchu. Nie tworzy profilu reklamowego użytkownika, nie śledzi go między witrynami i nie wysyła danych do zewnętrznego systemu analitycznego. Te deklaracje trzeba ponownie zweryfikować po dodaniu jakiejkolwiek nowej integracji.
+## Test zgody
+
+W czystej przeglądarce należy potwierdzić brak żądań do Google przed zgodą, prawidłowe działanie obu kategorii, możliwość odmowy bez utraty dostępu oraz równie łatwe wycofanie zgody w stopce. Wyniki testu warto zachować w dokumentacji wdrożeniowej.

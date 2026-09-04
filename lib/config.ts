@@ -34,6 +34,12 @@ const cleanSiteUrl = (value: string) => {
   }
 };
 
+const cleanGoogleAnalyticsId = (value: string) =>
+  /^G-[A-Z0-9]+$/i.test(value) ? value.toUpperCase() : '';
+
+const cleanGoogleAdsId = (value: string) =>
+  /^AW-\d+$/i.test(value) ? value.toUpperCase() : '';
+
 const configuredPhone = cleanPhone(envText('CONTACT_PHONE'));
 const configuredWhatsApp = cleanPhone(envText('WHATSAPP_NUMBER'));
 const configuredSiteUrl = cleanSiteUrl(envText('SITE_URL'));
@@ -52,7 +58,8 @@ export const siteConfig = Object.freeze({
   whatsAppHref: configuredWhatsApp
     ? `https://wa.me/${configuredWhatsApp.replace('+', '')}`
     : '',
-  googleAdsId: envText('GOOGLE_ADS_ID'),
+  googleAnalyticsId: cleanGoogleAnalyticsId(envText('GOOGLE_ANALYTICS_ID')),
+  googleAdsId: cleanGoogleAdsId(envText('GOOGLE_ADS_ID')),
   googleAdsPhoneConversionLabel: envText(
     'GOOGLE_ADS_PHONE_CONVERSION_LABEL',
   ),

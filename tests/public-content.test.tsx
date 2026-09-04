@@ -9,6 +9,9 @@ describe('public one-page', () => {
     expect(html).toContain('Sprzedaj auto');
     expect(html).toContain('Dane kontaktowe w przygotowaniu');
     expect(html).toContain('Katowice');
+    expect(html).toContain('/polityka-prywatnosci');
+    expect(html).toContain('/polityka-cookies');
+    expect(html).toContain('Ustawienia cookies');
     expect(html).not.toContain('<form');
     expect(html).not.toContain('Numer telefonu</label>');
   });

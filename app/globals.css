@@ -84,6 +84,50 @@ body {
   .mobile-contact-bar {
     bottom: max(1rem, env(safe-area-inset-bottom));
   }
+
+  .legal-content {
+    @apply space-y-10 text-[15px] leading-7 text-[#555b52] sm:text-base;
+  }
+
+  .legal-content section {
+    @apply scroll-mt-8;
+  }
+
+  .legal-content h2 {
+    @apply mb-4 text-2xl font-black tracking-[-0.04em] text-[#111210] sm:text-3xl;
+  }
+
+  .legal-content p + p,
+  .legal-content p + ul,
+  .legal-content ul + p,
+  .legal-content table + p {
+    @apply mt-4;
+  }
+
+  .legal-content ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+
+  .legal-content a {
+    @apply font-bold text-[#34382f] underline decoration-amber-500 decoration-2 underline-offset-2;
+  }
+
+  .legal-content table {
+    @apply w-full min-w-[660px] border-collapse overflow-hidden rounded-2xl bg-white text-left text-sm;
+  }
+
+  .legal-content th,
+  .legal-content td {
+    @apply border border-[#d9ddd3] p-4 align-top;
+  }
+
+  .legal-content th {
+    @apply bg-[#111210] font-black text-white;
+  }
+
+  .legal-content code {
+    @apply rounded bg-black/5 px-1.5 py-0.5 font-mono text-xs text-[#242720];
+  }
 }
 
 @media (min-width: 640px) {

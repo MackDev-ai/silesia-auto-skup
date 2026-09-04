@@ -4,11 +4,11 @@ export const contentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
   "font-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
-  "connect-src 'self' https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+  "connect-src 'self' https://www.google.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
   'upgrade-insecure-requests',
 ].join('; ');
 
