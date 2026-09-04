@@ -15,5 +15,8 @@ describe('security headers shared by Next.js and Cloudflare Workers', () => {
     expect(contentSecurityPolicy).toContain("frame-ancestors 'none'");
     expect(contentSecurityPolicy).toContain('https://www.googletagmanager.com');
     expect(contentSecurityPolicy).toContain('https://www.google-analytics.com');
+    expect(contentSecurityPolicy).toContain(
+      'frame-src https://www.googletagmanager.com',
+    );
   });
 });

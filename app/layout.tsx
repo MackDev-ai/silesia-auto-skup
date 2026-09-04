@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga -- canonical GTM head/body snippets supplied by the SEM provider */
 import type { Metadata } from 'next';
 
 import { ConsentManager } from '@/components/privacy/consent-manager';
@@ -51,6 +52,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const googleTagManagerId = siteConfig.googleTagManagerId;
+
   return (
     <html lang="pl">
       <head>
@@ -74,8 +77,27 @@ export default function RootLayout({
           media="(min-width: 640px)"
           fetchPriority="high"
         />
+        {googleTagManagerId && (
+          <script
+            id="google-tag-manager"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${googleTagManagerId}');`,
+            }}
+          />
+        )}
       </head>
       <body className="antialiased">
+        {googleTagManagerId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}`}
+              height="0"
+              width="0"
+              title="Google Tag Manager"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+        )}
         {children}
         <ConsentManager
           googleAnalyticsId={siteConfig.googleAnalyticsId}

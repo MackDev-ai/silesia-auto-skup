@@ -62,7 +62,7 @@ npx wrangler secret put ADMIN_PASSWORD_HASH
 npx wrangler secret put CRON_SECRET
 ```
 
-Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy, telefon oraz identyfikatory `GOOGLE_ANALYTICS_ID`, `GOOGLE_ADS_ID` i `GOOGLE_ADS_PHONE_CONVERSION_LABEL` mogą być zwykłymi zmiennymi Workers, ale do czasu otrzymania prawdziwych wartości pozostają puste. Lokalnie skopiuj `.dev.vars.example` do `.dev.vars`; prawdziwy `.dev.vars` jest ignorowany przez Git.
+Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy, telefon oraz identyfikatory `GOOGLE_ANALYTICS_ID`, `GOOGLE_ADS_ID`, `GOOGLE_ADS_PHONE_CONVERSION_LABEL` i `GOOGLE_TAG_MANAGER_ID` mogą być zwykłymi zmiennymi Workers, ale do czasu otrzymania prawdziwych wartości pozostają puste. Lokalnie skopiuj `.dev.vars.example` do `.dev.vars`; prawdziwy `.dev.vars` jest ignorowany przez Git.
 
 `wrangler.jsonc` ustawia `INFRA_PROVIDER=cloudflare`. System ufa wtedy wyłącznie adresowi `CF-Connecting-IP` nadpisywanemu przez platformę i pobiera kraj z `CF-IPCountry`. Weryfikacja botów używa reverse DNS oraz forward DNS przez `resolve4`/`resolve6`, które działają w runtime Workers.
 
@@ -87,6 +87,8 @@ Polecenie `cf:deploy` tworzy publiczne wdrożenie Workers, dlatego uruchamiaj je
 Po wdrożeniu zweryfikuj HTTP 403 dla testowo zablokowanego IP, rzeczywisty `CF-Connecting-IP`, logowanie `/admin`, zapis UTM/GCLID, retencję i brak publicznego dostępu do statystyk.
 
 ### 6. Zgody i GA4
+
+Jeżeli trwa migracja do GTM i certyfikowanej platformy CMP, najpierw zainstaluj kontener przez `GOOGLE_TAG_MANAGER_ID`. Obecny baner i bezpośrednie GA4 usuń dopiero po potwierdzeniu poprawnych stanów Consent Mode v2 w trybie Preview/Tag Assistant. Przełączenie powinno nastąpić jednocześnie, aby nie powodować podwójnego pomiaru ani przerwy w obsłudze zgód.
 
 1. Utwórz strumień danych „Sieć” w usłudze Google Analytics 4 dla docelowej domeny.
 2. Skopiuj identyfikator pomiaru `G-...` do zmiennej Workers `GOOGLE_ANALYTICS_ID`.

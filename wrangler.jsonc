@@ -15,7 +15,8 @@
     "SITE_URL": "https://silesiaautoskup.pl",
     "CONTACT_PHONE": "+48503586402",
     "CONTACT_EMAIL": "lasdarek98@gmail.com",
-    "GOOGLE_ANALYTICS_ID": "G-SJ91EY679S"
+    "GOOGLE_ANALYTICS_ID": "G-SJ91EY679S",
+    "GOOGLE_TAG_MANAGER_ID": "GTM-553V8L52"
   },
   "routes": [
     {

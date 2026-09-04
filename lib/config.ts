@@ -40,6 +40,9 @@ const cleanGoogleAnalyticsId = (value: string) =>
 const cleanGoogleAdsId = (value: string) =>
   /^AW-\d+$/i.test(value) ? value.toUpperCase() : '';
 
+const cleanGoogleTagManagerId = (value: string) =>
+  /^GTM-[A-Z0-9]+$/i.test(value) ? value.toUpperCase() : '';
+
 const configuredPhone = cleanPhone(envText('CONTACT_PHONE'));
 const configuredWhatsApp = cleanPhone(envText('WHATSAPP_NUMBER'));
 const configuredSiteUrl = cleanSiteUrl(envText('SITE_URL'));
@@ -62,6 +65,9 @@ export const siteConfig = Object.freeze({
   googleAdsId: cleanGoogleAdsId(envText('GOOGLE_ADS_ID')),
   googleAdsPhoneConversionLabel: envText(
     'GOOGLE_ADS_PHONE_CONVERSION_LABEL',
+  ),
+  googleTagManagerId: cleanGoogleTagManagerId(
+    envText('GOOGLE_TAG_MANAGER_ID'),
   ),
   contactReady: Boolean(configuredPhone),
 });

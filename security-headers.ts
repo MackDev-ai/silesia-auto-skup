@@ -3,6 +3,7 @@ export const contentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
+  'frame-src https://www.googletagmanager.com',
   "object-src 'none'",
   "img-src 'self' data: blob: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
   "font-src 'self'",

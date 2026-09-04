@@ -38,6 +38,15 @@ export function ContactLink({
       keepalive: true,
     }).catch(() => undefined);
 
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: kind,
+      contact_method: kind === 'phone_click' ? 'phone' : 'whatsapp',
+      link_url: href,
+      page_location: window.location.href,
+      page_path: `${window.location.pathname}${window.location.search}`,
+    });
+
     if (
       kind === 'phone_click' &&
       googleAdsId &&
