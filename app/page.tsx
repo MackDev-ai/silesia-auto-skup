@@ -166,8 +166,8 @@ export default function Home() {
               <span className="size-1.5 rounded-full bg-amber-400 shadow-[0_0_12px_#fbbf24]" /> Skup aut Śląsk
             </div>
             <h1 className="hero-title max-w-4xl font-black uppercase">
-              Sprzedaj auto<br />
-              <span className="text-amber-400">szybko.</span> Bez<br />formalności.
+              <span className="whitespace-nowrap">Sprzedaj auto</span><br />
+              <span className="text-amber-400">szybko.</span> Bez<br />zbędnych formalności.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
               Skupujemy samochody sprawne, uszkodzone i powypadkowe na terenie całego Śląska. Zapewniamy indywidualną wycenę, możliwość odbioru pojazdu i minimum formalności.
