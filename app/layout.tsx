@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     images: siteConfig.siteUrl
       ? [
           {
-            url: '/og.png',
-            width: 1672,
-            height: 941,
+            url: '/og.jpg',
+            width: 1200,
+            height: 675,
             alt: 'Silesia Auto Skup — ciemny samochód na industrialnym tle Śląska',
           },
         ]
@@ -41,8 +41,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.name,
     description: 'Sprzedaj auto szybko. Bez zbędnych formalności.',
-    images: siteConfig.siteUrl ? ['/og.png'] : undefined,
+    images: siteConfig.siteUrl ? ['/og.jpg'] : undefined,
   },
+  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({
@@ -52,6 +53,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href="/images/hero-mobile-640.avif"
+          imageSrcSet="/images/hero-mobile-640.avif 640w, /images/hero-mobile-960.avif 960w"
+          imageSizes="100vw"
+          media="(max-width: 639px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href="/images/hero-desktop-1280.avif"
+          imageSrcSet="/images/hero-desktop-960.avif 960w, /images/hero-desktop-1280.avif 1280w, /images/hero-desktop-1672.avif 1672w"
+          imageSizes="100vw"
+          media="(min-width: 640px)"
+          fetchPriority="high"
+        />
+      </head>
       <body className="antialiased">
         {children}
         <ConsentManager

@@ -97,7 +97,7 @@ function GoogleTags({
     <Script
       id="sas-google-tag"
       src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(tagId)}`}
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       onReady={() => {
         if (!window.gtag) return;
         window.gtag('js', new Date());

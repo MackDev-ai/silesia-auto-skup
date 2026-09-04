@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   ArrowDown,
   ArrowRight,
@@ -124,7 +123,7 @@ export default function Home() {
 
       <header className="absolute inset-x-0 top-[41px] z-20 text-white">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
-          <a href="#start" className="flex items-center gap-3" aria-label={`${siteConfig.name} — strona główna`}>
+          <a href="#start" className="flex items-center gap-3">
             <span className="grid size-10 place-items-center rounded-full bg-amber-400 text-[13px] font-black tracking-tighter text-black">SAS</span>
             <span className="max-w-32 text-[15px] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-amber-400">{siteConfig.name}</span>
           </a>
@@ -149,14 +148,44 @@ export default function Home() {
       </header>
 
       <section id="start" className="relative isolate min-h-[790px] bg-[#0b0c0b] text-white">
-        <Image
-          src="/images/hero-silesia-auto-skup.png"
-          alt="Ciemny samochód na tle industrialnej zabudowy kojarzącej się ze Śląskiem"
-          fill
-          priority
-          sizes="100vw"
-          className="-z-20 object-cover object-[66%_center]"
-        />
+        <picture className="absolute inset-0 -z-20 block overflow-hidden">
+          <source
+            media="(max-width: 639px)"
+            type="image/avif"
+            srcSet="/images/hero-mobile-640.avif 640w, /images/hero-mobile-960.avif 960w"
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 640px)"
+            type="image/avif"
+            srcSet="/images/hero-desktop-960.avif 960w, /images/hero-desktop-1280.avif 1280w, /images/hero-desktop-1672.avif 1672w"
+            sizes="100vw"
+          />
+          <source
+            media="(max-width: 639px)"
+            type="image/webp"
+            srcSet="/images/hero-mobile-640.webp 640w, /images/hero-mobile-960.webp 960w"
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 640px)"
+            type="image/webp"
+            srcSet="/images/hero-desktop-960.webp 960w, /images/hero-desktop-1280.webp 1280w, /images/hero-desktop-1672.webp 1672w"
+            sizes="100vw"
+          />
+          <img
+            src="/images/hero-desktop-1280.webp"
+            srcSet="/images/hero-desktop-960.webp 960w, /images/hero-desktop-1280.webp 1280w, /images/hero-desktop-1672.webp 1672w"
+            sizes="100vw"
+            width={1672}
+            height={941}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            alt="Ciemny samochód na tle industrialnej zabudowy kojarzącej się ze Śląskiem"
+            className="h-full w-full object-cover object-[66%_center]"
+          />
+        </picture>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#090a09_0%,rgba(9,10,9,.93)_42%,rgba(9,10,9,.35)_75%,rgba(9,10,9,.5)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-52 bg-gradient-to-t from-[#0b0c0b] to-transparent" />
 
@@ -234,7 +263,7 @@ export default function Home() {
             ].map(({ n, icon: Icon, title, copy }) => (
               <article key={n} className="min-h-[360px] bg-[#171916] p-8 sm:p-10">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-white/35">KROK {n}</span>
+                  <span className="font-mono text-xs font-bold text-white/55">KROK {n}</span>
                   <Icon className="size-6 text-amber-400" />
                 </div>
                 <h3 className="mt-24 max-w-xs text-2xl font-black tracking-[-0.04em]">{title}</h3>
@@ -248,7 +277,7 @@ export default function Home() {
       <section id="pojazdy" className="scroll-mt-10 bg-amber-400 px-5 py-24 text-black sm:px-8 lg:px-12 lg:py-32">
         <div className="mx-auto grid max-w-[1340px] gap-14 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-black/55">Kupowane pojazdy</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-black/70">Kupowane pojazdy</p>
             <h2 className="section-title mt-4">Każdy stan<br />oceniamy osobno.</h2>
             <p className="mt-6 max-w-lg text-base font-medium leading-7 text-black/60">
               Rozpatrujemy zakup różnych pojazdów, ale nie obiecujemy automatycznego przyjęcia każdego zgłoszenia. Ostateczna wycena zależy od konkretnego auta.
@@ -297,7 +326,7 @@ export default function Home() {
                     <span className="flex items-center gap-2 text-sm font-bold"><MapPin className={`size-4 ${index === 0 ? 'text-amber-400' : 'text-[#777d70]'}`} />{city}</span>
                   </div>
                 ))}
-                <div className="flex min-h-24 items-center justify-center rounded-2xl border border-dashed border-[#aeb4a5] p-4 text-center text-sm font-bold text-[#656a60]">Inne miejscowości po potwierdzeniu</div>
+                <div className="flex min-h-24 items-center justify-center rounded-2xl border border-dashed border-[#aeb4a5] p-4 text-center text-sm font-bold text-[#595e55]">Inne miejscowości po potwierdzeniu</div>
               </div>
             </div>
           </div>
@@ -336,7 +365,7 @@ export default function Home() {
           <div className="min-w-0 rounded-[22px] bg-[#111210] p-5 text-white sm:rounded-[24px] sm:p-9">
             {phoneEnabled ? (
               <>
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">Zadzwoń</p>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">Zadzwoń</p>
                 <ContactLink
                   href={siteConfig.phoneHref}
                   kind="phone_click"
@@ -378,7 +407,7 @@ export default function Home() {
               <a className="hover:text-white" href="#faq">FAQ</a>
             </nav>
           </div>
-          <div className="grid gap-4 pt-6 text-xs leading-5 text-white/35 sm:grid-cols-[1fr_auto] sm:items-start">
+          <div className="grid gap-4 pt-6 text-xs leading-5 text-white/55 sm:grid-cols-[1fr_auto] sm:items-start">
             <div>
               <p>© {new Date().getFullYear()} {siteConfig.name}. Wszelkie prawa zastrzeżone.</p>
               <p className="mt-2">{siteConfig.name}</p>
