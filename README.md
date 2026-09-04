@@ -67,9 +67,6 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
 | `COMPANY_NIP` | NIP dodawany do danych strukturalnych dopiero po uzupełnieniu |
 | `COMPANY_ADDRESS` | Adres działalności |
 | `WHATSAPP_NUMBER` | Numer E.164 aktywujący przycisk WhatsApp |
-| `GOOGLE_ANALYTICS_ID` | Identyfikator strumienia GA4, np. `G-...`; pusty = GA4 wyłączone |
-| `GOOGLE_ADS_ID` | Identyfikator konwersji, np. `AW-...` |
-| `GOOGLE_ADS_PHONE_CONVERSION_LABEL` | Etykieta konwersji kliknięcia w telefon |
 | `GOOGLE_TAG_MANAGER_ID` | Identyfikator kontenera, np. `GTM-...`; pusty = GTM wyłączony |
 | `DATABASE_URL` | Połączenie z PostgreSQL |
 | `DATABASE_SSL` | `true` na hostingu z TLS; lokalnie zwykle `false` |
@@ -98,26 +95,13 @@ Po ponownym uruchomieniu przyciski „Skontaktuj się” i mobilny sticky CTA u�
 
 ## Zgody, Google Analytics 4 i Google Ads
 
-Kontener GTM może zostać zainstalowany wcześniej jako etap techniczny. Do czasu potwierdzenia, że certyfikowana platforma CMP i Consent Mode v2 są w pełni skonfigurowane w GTM, obecny baner zgody oraz bezpośrednie GA4 pozostają aktywne. W momencie finalnego przełączenia należy usunąć bezpośredni `gtag.js`, aby uniknąć podwójnego pomiaru.
-
-Baner zgody działa bez zewnętrznego dostawcy. Zapamiętuje osobno zgodę analityczną i marketingową w cookie `sas_cookie_consent` przez 180 dni. Użytkownik może wybrać „Tylko niezbędne”, skonfigurować kategorie oddzielnie lub zmienić wybór przez „Ustawienia cookies” w stopce. Skrypt Google nie jest pobierany przed zgodą (podstawowy wariant Consent Mode).
-
-GA4 uruchamia się dopiero po ustawieniu prawidłowego identyfikatora:
+Strona instaluje wyłącznie kontener Google Tag Manager. GA4, Google Ads, certyfikowana platforma CMP oraz Consent Mode v2 są konfigurowane wewnątrz kontenera przez obsługę marketingową:
 
 ```dotenv
-GOOGLE_ANALYTICS_ID="G-XXXXXXXXXX"
+GOOGLE_TAG_MANAGER_ID="GTM-XXXXXXXX"
 ```
 
-Po wdrożeniu sprawdź w raporcie czasu rzeczywistego GA4, że wejście pojawia się po zgodzie analitycznej, a nie pojawia się po wyborze „Tylko niezbędne”. Nie używaj widoku panelu `/admin` do testu — analityka jest tam celowo wyłączona.
-
-Google Ads:
-
-1. Ustaw `GOOGLE_ADS_ID` i `GOOGLE_ADS_PHONE_CONVERSION_LABEL`.
-2. Wdroż nową wersję aplikacji.
-3. Zaakceptuj kategorię marketingową i zweryfikuj konwersję kliknięcia telefonicznego w trybie diagnostycznym Google Ads.
-4. Parametry `gclid` i wszystkie `utm_*` są zapisywane przez backend w `visits`, razem ze stroną wejścia i referrerem.
-
-Kliknięcia telefonu i WhatsApp są dodatkowo przekazywane do `dataLayer` jako `phone_click` i `whatsapp_click`, aby po finalnym przełączeniu GTM mógł obsłużyć konwersje bez dalszych zmian przycisków.
+Kliknięcia telefonu i WhatsApp są przekazywane do `dataLayer` jako `phone_click` i `whatsapp_click`. Reguły tagów i wymagania zgody ustawia się w GTM. Parametry `gclid` i wszystkie `utm_*` są nadal zapisywane przez własny backend w `visits`, razem ze stroną wejścia i referrerem.
 
 System nie dodaje automatycznie wykluczeń IP do Google Ads. Administrator ręcznie wybiera „Zatwierdź do eksportu”, a dopiero później pobiera CSV. Wynik ryzyka nie jest dowodem oszustwa.
 

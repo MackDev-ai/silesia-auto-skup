@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/next-script-for-ga -- canonical GTM head/body snippets supplied by the SEM provider */
 import type { Metadata } from 'next';
 
-import { ConsentManager } from '@/components/privacy/consent-manager';
 import { siteConfig } from '@/lib/config';
 
 import './globals.css';
@@ -99,10 +98,6 @@ export default function RootLayout({
           </noscript>
         )}
         {children}
-        <ConsentManager
-          googleAnalyticsId={siteConfig.googleAnalyticsId}
-          googleAdsId={siteConfig.googleAdsId}
-        />
       </body>
     </html>
   );

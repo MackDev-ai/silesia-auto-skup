@@ -80,8 +80,9 @@ export default function PrivacyPolicyPage() {
           </li>
         </ul>
         <p>
-          Zgodę można wycofać w dowolnym momencie przez „Ustawienia cookies” w stopce. Wycofanie
-          zgody nie wpływa na zgodność z prawem wcześniejszego przetwarzania.
+          Zgodę można wycofać w dowolnym momencie przez panel ustawień udostępniany przez platformę
+          zarządzania zgodą (CMP). Wycofanie zgody nie wpływa na zgodność z prawem wcześniejszego
+          przetwarzania.
         </p>
       </section>
 
@@ -103,8 +104,9 @@ export default function PrivacyPolicyPage() {
       <section>
         <h2>5. Google Analytics i Google Ads</h2>
         <p>
-          Google Analytics 4 i pomiar konwersji Google Ads są opcjonalne. Skrypty Google nie są
-          pobierane przed wyrażeniem odpowiedniej zgody. Po zgodzie Google może przetwarzać m.in.
+          Google Analytics 4 i pomiar konwersji Google Ads są zarządzane przez Google Tag Manager
+          oraz certyfikowaną platformę CMP. Ich działanie zależy od statusu zgody przekazanego przez
+          Consent Mode v2. Po zgodzie Google może przetwarzać m.in.
           identyfikatory cookies, dane o urządzeniu, przeglądarce i przybliżonej lokalizacji oraz
           informacje o odwiedzanych podstronach.
         </p>
@@ -113,7 +115,7 @@ export default function PrivacyPolicyPage() {
           <a href="https://policies.google.com/privacy?hl=pl" rel="noreferrer" target="_blank">
             polityce prywatności Google
           </a>
-          . Zakres zgody można zmienić w każdej chwili w ustawieniach cookies.
+          . Zakres zgody można zmienić w każdej chwili w panelu platformy CMP.
         </p>
       </section>
 
@@ -138,7 +140,7 @@ export default function PrivacyPolicyPage() {
             rekordy wizyt i powiązane zdarzenia ryzyka: domyślnie {riskConfig.retentionDays} dni;
           </li>
           <li>cookie identyfikujące wizytę bezpieczeństwa: 24 godziny;</li>
-          <li>cookie wyboru prywatności: 180 dni;</li>
+          <li>wybór prywatności: przez okres wskazany w panelu platformy CMP;</li>
           <li>log działań administratora: maksymalnie 365 dni;</li>
           <li>
             aktywne reguły blokowania lub wyjątków: do usunięcia przez administratora albo upływu
@@ -175,4 +177,3 @@ export default function PrivacyPolicyPage() {
     </LegalPageShell>
   );
 }
-

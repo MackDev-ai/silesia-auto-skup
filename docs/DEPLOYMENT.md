@@ -62,7 +62,7 @@ npx wrangler secret put ADMIN_PASSWORD_HASH
 npx wrangler secret put CRON_SECRET
 ```
 
-Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy, telefon oraz identyfikatory `GOOGLE_ANALYTICS_ID`, `GOOGLE_ADS_ID`, `GOOGLE_ADS_PHONE_CONVERSION_LABEL` i `GOOGLE_TAG_MANAGER_ID` mogą być zwykłymi zmiennymi Workers, ale do czasu otrzymania prawdziwych wartości pozostają puste. Lokalnie skopiuj `.dev.vars.example` do `.dev.vars`; prawdziwy `.dev.vars` jest ignorowany przez Git.
+Hash hasła wygeneruj wcześniej przez `npm run admin:hash-password`. Dane firmy, telefon oraz identyfikator `GOOGLE_TAG_MANAGER_ID` mogą być zwykłymi zmiennymi Workers. Lokalnie skopiuj `.dev.vars.example` do `.dev.vars`; prawdziwy `.dev.vars` jest ignorowany przez Git.
 
 `wrangler.jsonc` ustawia `INFRA_PROVIDER=cloudflare`. System ufa wtedy wyłącznie adresowi `CF-Connecting-IP` nadpisywanemu przez platformę i pobiera kraj z `CF-IPCountry`. Weryfikacja botów używa reverse DNS oraz forward DNS przez `resolve4`/`resolve6`, które działają w runtime Workers.
 
@@ -86,17 +86,15 @@ Polecenie `cf:deploy` tworzy publiczne wdrożenie Workers, dlatego uruchamiaj je
 
 Po wdrożeniu zweryfikuj HTTP 403 dla testowo zablokowanego IP, rzeczywisty `CF-Connecting-IP`, logowanie `/admin`, zapis UTM/GCLID, retencję i brak publicznego dostępu do statystyk.
 
-### 6. Zgody i GA4
+### 6. GTM, CMP, GA4 i Google Ads
 
-Jeżeli trwa migracja do GTM i certyfikowanej platformy CMP, najpierw zainstaluj kontener przez `GOOGLE_TAG_MANAGER_ID`. Obecny baner i bezpośrednie GA4 usuń dopiero po potwierdzeniu poprawnych stanów Consent Mode v2 w trybie Preview/Tag Assistant. Przełączenie powinno nastąpić jednocześnie, aby nie powodować podwójnego pomiaru ani przerwy w obsłudze zgód.
+1. Ustaw `GOOGLE_TAG_MANAGER_ID` na identyfikator `GTM-...` i wdróż aplikację.
+2. W GTM skonfiguruj certyfikowaną platformę CMP na wyzwalaczu `Consent Initialization - All Pages`.
+3. Skonfiguruj Consent Mode v2 oraz tagi GA4 i Google Ads z właściwymi wymaganiami zgody.
+4. Powiąż zdarzenia `phone_click` i `whatsapp_click` z odpowiednimi konwersjami.
+5. W trybie Preview/Tag Assistant sprawdź odmowę, częściową i pełną zgodę oraz możliwość jej wycofania.
 
-1. Utwórz strumień danych „Sieć” w usłudze Google Analytics 4 dla docelowej domeny.
-2. Skopiuj identyfikator pomiaru `G-...` do zmiennej Workers `GOOGLE_ANALYTICS_ID`.
-3. Wdróż ponownie aplikację.
-4. W czystym profilu przeglądarki sprawdź, że przed wyborem zgody nie ma żądania do `googletagmanager.com` ani `google-analytics.com`.
-5. Po zgodzie analitycznej sprawdź raport czasu rzeczywistego. Następnie wycofaj zgodę w stopce i ponownie sprawdź brak żądań po przeładowaniu.
-
-Panel `/admin` jest celowo wyłączony z GA4. Własny monitoring bezpieczeństwa działa niezależnie od zgody analitycznej i ma osobną, konfigurowalną retencję.
+Własny monitoring bezpieczeństwa działa niezależnie od GTM i ma osobną, konfigurowalną retencję.
 
 ## Podłączenie domeny
 

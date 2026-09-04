@@ -5,8 +5,6 @@ import type { ReactNode } from 'react';
 declare global {
   interface Window {
     dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-    __sasConsent?: { analytics: boolean; marketing: boolean };
   }
 }
 
@@ -15,8 +13,6 @@ type Props = {
   kind?: 'phone_click' | 'whatsapp_click';
   className?: string;
   children: ReactNode;
-  googleAdsId?: string;
-  googleAdsLabel?: string;
   ariaLabel?: string;
 };
 
@@ -25,8 +21,6 @@ export function ContactLink({
   kind,
   className,
   children,
-  googleAdsId,
-  googleAdsLabel,
   ariaLabel,
 }: Props) {
   function handleClick() {
@@ -47,17 +41,6 @@ export function ContactLink({
       page_path: `${window.location.pathname}${window.location.search}`,
     });
 
-    if (
-      kind === 'phone_click' &&
-      googleAdsId &&
-      googleAdsLabel &&
-      window.__sasConsent?.marketing === true &&
-      typeof window.gtag === 'function'
-    ) {
-      window.gtag('event', 'conversion', {
-        send_to: `${googleAdsId}/${googleAdsLabel}`,
-      });
-    }
   }
 
   return (

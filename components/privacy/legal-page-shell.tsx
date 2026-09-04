@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-import { CookieSettingsButton } from '@/components/privacy/cookie-settings-button';
 import { siteConfig } from '@/lib/config';
 
 type Props = {
@@ -48,7 +47,6 @@ export function LegalPageShell({ eyebrow, title, lead, children }: Props) {
           <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Dokumenty i ustawienia prywatności">
             <a className="hover:text-white" href="/polityka-prywatnosci">Polityka prywatności</a>
             <a className="hover:text-white" href="/polityka-cookies">Polityka cookies</a>
-            <CookieSettingsButton className="text-left hover:text-white" />
           </nav>
         </div>
       </footer>

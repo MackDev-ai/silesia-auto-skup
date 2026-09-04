@@ -11,7 +11,7 @@ describe('public one-page', () => {
     expect(html).toContain('Katowice');
     expect(html).toContain('/polityka-prywatnosci');
     expect(html).toContain('/polityka-cookies');
-    expect(html).toContain('Ustawienia cookies');
+    expect(html).not.toContain('Ustawienia cookies');
     expect(html).not.toContain('<form');
     expect(html).not.toContain('Numer telefonu</label>');
   });

@@ -13,12 +13,11 @@ describe('legal information pages', () => {
     expect(html).toContain('Prawa użytkownika');
   });
 
-  it('lists necessary and optional cookies and a withdrawal control', () => {
+  it('lists necessary and optional cookies and explains CMP withdrawal', () => {
     const html = renderToStaticMarkup(<CookiePolicyPage />);
-    expect(html).toContain('sas_cookie_consent');
     expect(html).toContain('sas_visit_id');
     expect(html).toContain('_ga');
-    expect(html).toContain('Ustawienia cookies');
+    expect(html).toContain('platforma CMP');
+    expect(html).toContain('Consent Mode v2');
   });
 });
-

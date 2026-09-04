@@ -18,7 +18,6 @@ import {
 
 import { ContactLink } from '@/components/site/contact-link';
 import { MobileContactBar } from '@/components/site/mobile-contact-bar';
-import { CookieSettingsButton } from '@/components/privacy/cookie-settings-button';
 import { siteConfig } from '@/lib/config';
 
 const areas = [
@@ -137,8 +136,6 @@ export default function Home() {
           <ContactLink
             href={primaryHref}
             kind={phoneEnabled ? 'phone_click' : undefined}
-            googleAdsId={siteConfig.googleAdsId}
-            googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
             className="inline-flex size-10 shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 text-sm font-bold backdrop-blur-md transition hover:bg-white hover:text-black sm:h-10 sm:w-auto sm:px-4"
             ariaLabel="Skontaktuj się"
           >
@@ -205,8 +202,6 @@ export default function Home() {
               <ContactLink
                 href={primaryHref}
                 kind={phoneEnabled ? 'phone_click' : undefined}
-                googleAdsId={siteConfig.googleAdsId}
-                googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
                 className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-5 text-[13px] font-black text-black transition hover:bg-amber-300 sm:px-7 sm:text-sm"
               >
                 Porozmawiajmy o Twoim aucie <ArrowRight className="size-4" />
@@ -369,8 +364,6 @@ export default function Home() {
                 <ContactLink
                   href={siteConfig.phoneHref}
                   kind="phone_click"
-                  googleAdsId={siteConfig.googleAdsId}
-                  googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
                   className="mt-4 flex items-center justify-between gap-3 text-2xl font-black tracking-[-0.04em] text-amber-400"
                 >
                   {siteConfig.phoneDisplay} <Phone className="size-6" />
@@ -414,7 +407,6 @@ export default function Home() {
               <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2" aria-label="Prywatność i dokumenty">
                 <a className="hover:text-white" href="/polityka-prywatnosci">Polityka prywatności</a>
                 <a className="hover:text-white" href="/polityka-cookies">Polityka cookies</a>
-                <CookieSettingsButton className="text-left hover:text-white" />
               </nav>
             </div>
             <p className="sm:text-right">Skup aut Śląsk · skup samochodów Katowice i okolice</p>
@@ -426,8 +418,6 @@ export default function Home() {
         href={primaryHref}
         phoneEnabled={phoneEnabled}
         companyName={siteConfig.name}
-        googleAdsId={siteConfig.googleAdsId}
-        googleAdsLabel={siteConfig.googleAdsPhoneConversionLabel}
       />
     </main>
   );

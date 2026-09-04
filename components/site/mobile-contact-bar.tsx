@@ -9,16 +9,12 @@ type Props = {
   href: string;
   phoneEnabled: boolean;
   companyName: string;
-  googleAdsId?: string;
-  googleAdsLabel?: string;
 };
 
 export function MobileContactBar({
   href,
   phoneEnabled,
   companyName,
-  googleAdsId,
-  googleAdsLabel,
 }: Props) {
   const [visible, setVisible] = useState(false);
 
@@ -50,8 +46,6 @@ export function MobileContactBar({
     <ContactLink
       href={href}
       kind={phoneEnabled ? 'phone_click' : undefined}
-      googleAdsId={googleAdsId}
-      googleAdsLabel={googleAdsLabel}
       className="mobile-contact-bar fixed left-1/2 z-50 flex h-12 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center justify-center gap-2 rounded-full border-2 border-amber-400 bg-black px-5 text-sm font-black text-white shadow-2xl shadow-black/45 transition-colors hover:bg-[#171815] lg:hidden"
       ariaLabel={
         phoneEnabled

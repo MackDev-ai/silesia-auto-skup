@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import { CookieSettingsButton } from '@/components/privacy/cookie-settings-button';
 import { LegalPageShell } from '@/components/privacy/legal-page-shell';
 import { getCanonicalUrl, siteConfig } from '@/lib/config';
 
@@ -40,11 +39,6 @@ export default function CookiePolicyPage() {
             </thead>
             <tbody>
               <tr>
-                <td><code>sas_cookie_consent</code></td>
-                <td>Niezbędne — zapamiętuje wybór prywatności.</td>
-                <td>180 dni</td>
-              </tr>
-              <tr>
                 <td><code>sas_visit_id</code></td>
                 <td>Niezbędne — łączy kliknięcie kontaktowe z wizytą w systemie bezpieczeństwa.</td>
                 <td>24 godziny</td>
@@ -68,23 +62,22 @@ export default function CookiePolicyPage() {
           </table>
         </div>
         <p>
-          Dokładny zestaw cookies Google może zmieniać się wraz z konfiguracją usługi i przeglądarką.
-          Jeśli identyfikator GA4 lub Google Ads nie jest skonfigurowany, dana kategoria pozostaje
-          nieaktywna i odpowiednie cookies nie są ustawiane przez stronę.
+          Dokładny zestaw cookies może zmieniać się wraz z konfiguracją usług, platformy CMP i
+          przeglądarką. Aktualny wybór oraz szczegóły kategorii prezentuje panel zarządzania zgodą.
         </p>
       </section>
 
       <section>
         <h2>3. Jak działa zgoda</h2>
         <p>
-          Przy pierwszej wizycie można zaakceptować opcjonalne narzędzia, pozostawić tylko niezbędne
-          cookies albo wybrać kategorie osobno. Brak zgody nie blokuje dostępu do treści ani kontaktu.
+          Zgodą na opcjonalne technologie zarządza certyfikowana platforma CMP zintegrowana przez
+          Google Tag Manager. Użytkownik może zaakceptować albo odrzucić opcjonalne kategorie.
+          Brak zgody nie blokuje dostępu do treści ani kontaktu.
         </p>
         <p>
-          W tym serwisie stosujemy podstawowy wariant zgody: skrypty Google nie są ładowane i nie
-          wysyłają danych przed udzieleniem zgody. Wybór można równie łatwo zmienić lub wycofać:
+          Status zgody jest przekazywany do usług Google przez Consent Mode v2. Wybór można zmienić
+          lub wycofać za pomocą panelu ustawień udostępnianego przez platformę CMP.
         </p>
-        <CookieSettingsButton className="inline-flex h-12 items-center rounded-full bg-[#111210] px-6 text-sm font-black text-white hover:bg-[#2b2e28]" />
       </section>
 
       <section>
@@ -108,4 +101,3 @@ export default function CookiePolicyPage() {
     </LegalPageShell>
   );
 }
-

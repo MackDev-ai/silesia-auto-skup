@@ -34,12 +34,6 @@ const cleanSiteUrl = (value: string) => {
   }
 };
 
-const cleanGoogleAnalyticsId = (value: string) =>
-  /^G-[A-Z0-9]+$/i.test(value) ? value.toUpperCase() : '';
-
-const cleanGoogleAdsId = (value: string) =>
-  /^AW-\d+$/i.test(value) ? value.toUpperCase() : '';
-
 const cleanGoogleTagManagerId = (value: string) =>
   /^GTM-[A-Z0-9]+$/i.test(value) ? value.toUpperCase() : '';
 
@@ -61,11 +55,6 @@ export const siteConfig = Object.freeze({
   whatsAppHref: configuredWhatsApp
     ? `https://wa.me/${configuredWhatsApp.replace('+', '')}`
     : '',
-  googleAnalyticsId: cleanGoogleAnalyticsId(envText('GOOGLE_ANALYTICS_ID')),
-  googleAdsId: cleanGoogleAdsId(envText('GOOGLE_ADS_ID')),
-  googleAdsPhoneConversionLabel: envText(
-    'GOOGLE_ADS_PHONE_CONVERSION_LABEL',
-  ),
   googleTagManagerId: cleanGoogleTagManagerId(
     envText('GOOGLE_TAG_MANAGER_ID'),
   ),
