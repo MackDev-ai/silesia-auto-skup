@@ -381,13 +381,7 @@ export default function Home() {
           <div className="grid gap-4 pt-6 text-xs leading-5 text-white/35 sm:grid-cols-[1fr_auto] sm:items-start">
             <div>
               <p>© {new Date().getFullYear()} {siteConfig.name}. Wszelkie prawa zastrzeżone.</p>
-              {(siteConfig.legalName || siteConfig.address || siteConfig.nip || siteConfig.email) && (
-                <p className="mt-2">
-                  {[siteConfig.legalName, siteConfig.address, siteConfig.nip ? `NIP: ${siteConfig.nip}` : '', siteConfig.email]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </p>
-              )}
+              <p className="mt-2">{siteConfig.name}</p>
               <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2" aria-label="Prywatność i dokumenty">
                 <a className="hover:text-white" href="/polityka-prywatnosci">Polityka prywatności</a>
                 <a className="hover:text-white" href="/polityka-cookies">Polityka cookies</a>
