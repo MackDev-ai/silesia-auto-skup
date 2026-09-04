@@ -52,7 +52,7 @@ export function MobileContactBar({
       kind={phoneEnabled ? 'phone_click' : undefined}
       googleAdsId={googleAdsId}
       googleAdsLabel={googleAdsLabel}
-      className="mobile-contact-bar fixed left-1/2 z-50 flex h-12 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-white/15 bg-[#111210]/95 px-5 text-sm font-black text-white shadow-2xl shadow-black/35 backdrop-blur-md lg:hidden"
+      className="mobile-contact-bar fixed left-1/2 z-50 flex h-12 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-black/10 bg-amber-400 px-5 text-sm font-black text-black shadow-2xl shadow-black/35 transition-colors hover:bg-amber-300 lg:hidden"
       ariaLabel={
         phoneEnabled
           ? `Zadzwoń do ${companyName}`
@@ -60,7 +60,7 @@ export function MobileContactBar({
       }
     >
       {phoneEnabled ? 'Zadzwoń teraz' : 'Skontaktuj się'}
-      <Phone className="size-4 text-amber-400" />
+      <Phone className="size-4 text-black" />
     </ContactLink>
   );
 }
