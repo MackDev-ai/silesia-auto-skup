@@ -3,13 +3,14 @@ export const contentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
-  'frame-src https://www.googletagmanager.com',
+  'frame-src https://www.googletagmanager.com https://consent.cookiebot.eu https://consent.cookiebot.com https://consentcdn.cookiebot.eu https://consentcdn.cookiebot.com',
   "object-src 'none'",
-  "img-src 'self' data: blob: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://google.com https://www.google.pl https://google.pl https://imgsct.cookiebot.eu https://imgsct.cookiebot.com https://consent.cookiebot.eu https://consent.cookiebot.com https://consentcdn.cookiebot.eu https://consentcdn.cookiebot.com",
   "font-src 'self'",
   "style-src 'self' 'unsafe-inline'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
-  "connect-src 'self' https://www.google.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://consent.cookiebot.eu https://consent.cookiebot.com",
+  "script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://consent.cookiebot.eu https://consent.cookiebot.com",
+  "connect-src 'self' https://www.google.com https://google.com https://www.google.pl https://google.pl https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://*.g.doubleclick.net https://ad.doubleclick.net https://consent.cookiebot.eu https://consent.cookiebot.com https://consentcdn.cookiebot.eu https://consentcdn.cookiebot.com",
   'upgrade-insecure-requests',
 ].join('; ');
 

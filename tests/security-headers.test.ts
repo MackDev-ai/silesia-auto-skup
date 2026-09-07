@@ -18,5 +18,16 @@ describe('security headers shared by Next.js and Cloudflare Workers', () => {
     expect(contentSecurityPolicy).toContain(
       'frame-src https://www.googletagmanager.com',
     );
+    expect(contentSecurityPolicy).toContain(
+      "script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://consent.cookiebot.eu",
+    );
+    expect(contentSecurityPolicy).toContain(
+      'https://consentcdn.cookiebot.eu',
+    );
+    expect(contentSecurityPolicy).toContain('https://imgsct.cookiebot.eu');
+    expect(contentSecurityPolicy).toContain(
+      'https://pagead2.googlesyndication.com',
+    );
+    expect(contentSecurityPolicy).toContain('https://*.g.doubleclick.net');
   });
 });
