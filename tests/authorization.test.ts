@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { POST as manageIp } from '@/app/api/admin/ip-rules/route';
 import { proxy } from '@/proxy';
 import {
+  ADMIN_COOKIE,
+  createAdminSession,
   passwordHashForSetup,
   validMutationOrigin,
   verifyPassword,
@@ -32,6 +34,29 @@ describe('administrator authorization', () => {
       }),
     });
     expect((await manageIp(request)).status).toBe(401);
+  });
+
+  it('does not allow a read-only viewer to change IP rules', async () => {
+    process.env.SESSION_SECRET = 'test-session-secret-at-least-32-characters';
+    process.env.ADMIN_EMAIL = 'owner@example.com';
+    const token = createAdminSession(
+      'sem@example.com',
+      'viewer',
+      '11111111-1111-4111-8111-111111111111',
+    );
+    const request = new NextRequest('http://localhost/api/admin/ip-rules', {
+      method: 'POST',
+      headers: {
+        origin: 'http://localhost',
+        host: 'localhost',
+        cookie: `${ADMIN_COOKIE}=${token}`,
+      },
+      body: new URLSearchParams({
+        action: 'block_indefinite',
+        ip: '192.0.2.1',
+      }),
+    });
+    expect((await manageIp(request)).status).toBe(403);
   });
 
   it('rejects a cross-site mutation origin', () => {

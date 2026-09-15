@@ -130,9 +130,9 @@ W trybie `direct` aplikacja celowo ignoruje `X-Forwarded-For`. Na VPS reverse pr
 
 ## Panel administratora
 
-Panel `/admin` jest wykluczony w `robots.txt`, zwraca `X-Robots-Tag: noindex`, ma prywatny cache i wymaga podpisanej sesji HttpOnly/SameSite=Strict. Pokazuje statystyki dzienne, wizyty, kampanie, `gclid`, IP, ryzyko, przyczyny i status. Obsługuje wyszukiwanie, filtry, sortowanie, paginację, blokowanie, białą listę, ręczną weryfikację i CSV.
+Panel `/admin` jest wykluczony w `robots.txt`, zwraca `X-Robots-Tag: noindex`, ma prywatny cache i wymaga podpisanej sesji HttpOnly/SameSite=Strict. Pokazuje statystyki dzienne, wizyty, kampanie, `gclid`, IP, ryzyko, przyczyny i status. Obsługuje wyszukiwanie, filtry, sortowanie, paginację, blokowanie, białą listę, ręczną weryfikację i CSV. Właściciel może tworzyć dodatkowe konta `viewer` przeznaczone do podglądu oraz eksportowania logów; takie konta nie mogą zmieniać blokad, białej listy ani użytkowników.
 
-Mutacje wymagają ważnej sesji i zgodnego nagłówka `Origin`. React zabezpiecza dynamiczne treści przed wstrzyknięciem HTML; CSP, `X-Frame-Options`, `nosniff` i ograniczenia uprawnień są ustawiane globalnie. Każde logowanie, wylogowanie, działanie na IP i eksport jest audytowane.
+Mutacje wymagają ważnej sesji, roli `owner` i zgodnego nagłówka `Origin`. React zabezpiecza dynamiczne treści przed wstrzyknięciem HTML; CSP, `X-Frame-Options`, `nosniff` i ograniczenia uprawnień są ustawiane globalnie. Każde logowanie, wylogowanie, działanie na IP, zarządzanie kontem i eksport jest audytowane. Eksport bieżących logów uwzględnia aktywne filtry panelu, nie wymaga ręcznego zatwierdzania rekordów i ma limit 50 000 wierszy na plik.
 
 ## Retencja i kopie zapasowe
 

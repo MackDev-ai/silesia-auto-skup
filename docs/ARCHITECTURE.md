@@ -16,6 +16,7 @@
 - `ip_blocks`: historia blokad czasowych/bezterminowych, automatycznych/ręcznych;
 - `ip_allowlist`: zaufane IP;
 - `risk_events`: atomowe powody punktacji i akcje kontaktowe;
+- `admin_users`: dodatkowe konta podglądu z hasłami zapisanymi wyłącznie jako PBKDF2;
 - `admin_audit_log`: logowania, mutacje i eksporty.
 
 Indeksy pokrywają IP/hash, czas, decyzję, kampanię, `gclid`, blokadę i ręczną weryfikację. Wszystkie wartości wejściowe są parametrami zapytań. Dynamiczna nazwa kolumny sortowania pochodzi z zamkniętej whitelisty.
@@ -26,7 +27,8 @@ Indeksy pokrywają IP/hash, czas, decyzję, kampanię, `gclid`, blokadę i ręcz
 - panel ma osobną trasę, sesję HttpOnly/SameSite=Strict, CSP i `noindex`;
 - hasło nie istnieje w kodzie, przechowywany jest wyłącznie mocny hash PBKDF2;
 - endpointy modyfikujące wymagają sesji i zgodnego originu;
-- eksportuje się wyłącznie IP ręcznie oznaczone jako `approved`;
+- właściciel może zarządzać blokadami i kontami; konto `viewer` może wyłącznie czytać i eksportować logi;
+- raport do wykluczeń nadal obejmuje wyłącznie IP ręcznie oznaczone jako `approved`, a oddzielny eksport operacyjny obejmuje rekordy zgodne z filtrami;
 - CSV neutralizuje formuły arkusza;
 - logowanie ma limit prób oparty o audyt PostgreSQL;
 - retencja usuwa stare wizyty i zdarzenia zależne.

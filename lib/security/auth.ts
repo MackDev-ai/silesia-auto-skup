@@ -1,4 +1,9 @@
-import { createHmac, pbkdf2Sync, randomBytes, timingSafeEqual } from 'node:crypto';
+import {
+  createHmac,
+  pbkdf2Sync,
+  randomBytes,
+  timingSafeEqual,
+} from 'node:crypto';
 
 import { requireEnvironment, siteConfig } from '@/lib/config';
 
@@ -6,8 +11,12 @@ export const ADMIN_COOKIE = 'sas_admin_session';
 export const SESSION_TTL_SECONDS = 8 * 60 * 60;
 export const PBKDF2_ITERATIONS = 100_000;
 
-type SessionPayload = {
+export type AdminRole = 'owner' | 'viewer';
+
+export type AdminSession = {
   email: string;
+  role: AdminRole;
+  userId: string | null;
   exp: number;
   nonce: string;
 };
@@ -18,9 +27,15 @@ function sign(value: string) {
     .digest('base64url');
 }
 
-export function createAdminSession(email: string) {
-  const payload: SessionPayload = {
+export function createAdminSession(
+  email: string,
+  role: AdminRole = 'owner',
+  userId: string | null = null,
+) {
+  const payload: AdminSession = {
     email,
+    role,
+    userId,
     exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
     nonce: randomBytes(16).toString('hex'),
   };
@@ -43,11 +58,27 @@ export function verifyAdminSession(token?: string | null) {
     return null;
   }
   try {
-    const payload = JSON.parse(
+    const rawPayload = JSON.parse(
       Buffer.from(encoded, 'base64url').toString('utf8'),
-    ) as SessionPayload;
+    ) as Partial<AdminSession>;
+    const role = rawPayload.role ?? 'owner';
+    const userId = rawPayload.userId ?? null;
+    const payload: AdminSession = {
+      email: rawPayload.email ?? '',
+      role,
+      userId,
+      exp: rawPayload.exp ?? 0,
+      nonce: rawPayload.nonce ?? '',
+    };
     if (payload.exp <= Math.floor(Date.now() / 1000)) return null;
-    if (payload.email !== requireEnvironment('ADMIN_EMAIL')) return null;
+    if (!payload.email || !payload.nonce) return null;
+    if (payload.role !== 'owner' && payload.role !== 'viewer') return null;
+    if (payload.role === 'owner') {
+      if (payload.email !== requireEnvironment('ADMIN_EMAIL')) return null;
+      if (payload.userId) return null;
+    } else if (!payload.userId) {
+      return null;
+    }
     return payload;
   } catch {
     return null;
@@ -56,7 +87,12 @@ export function verifyAdminSession(token?: string | null) {
 
 export function verifyPassword(password: string, storedHash: string) {
   const [algorithm, iterationsRaw, salt, expectedRaw] = storedHash.split('$');
-  if (algorithm !== 'pbkdf2_sha256' || !iterationsRaw || !salt || !expectedRaw) {
+  if (
+    algorithm !== 'pbkdf2_sha256' ||
+    !iterationsRaw ||
+    !salt ||
+    !expectedRaw
+  ) {
     return false;
   }
   const iterations = Number.parseInt(iterationsRaw, 10);
@@ -68,7 +104,13 @@ export function verifyPassword(password: string, storedHash: string) {
     return false;
   }
   const expected = Buffer.from(expectedRaw, 'base64url');
-  const actual = pbkdf2Sync(password, salt, iterations, expected.length, 'sha256');
+  const actual = pbkdf2Sync(
+    password,
+    salt,
+    iterations,
+    expected.length,
+    'sha256',
+  );
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 

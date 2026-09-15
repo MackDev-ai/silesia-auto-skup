@@ -5,26 +5,36 @@ import {
   recordAdminAudit,
   type ApprovedIpReportRow,
 } from '@/lib/admin-repository';
+import { csvCell } from '@/lib/csv';
 import { ADMIN_COOKIE, verifyAdminSession } from '@/lib/security/auth';
 import { resolveClientIp } from '@/lib/security/ip';
 
-export const csvCell = (value: unknown) =>
-  `"${String(value ?? '').replaceAll('"', '""').replace(/^[=+\-@]/, "'$&")}"`;
-
-export function buildApprovedCsv(
-  rows: readonly ApprovedIpReportRow[],
-) {
+export function buildApprovedCsv(rows: readonly ApprovedIpReportRow[]) {
   const header = [
-    'IP', 'Liczba wejść', 'Liczba kampanii', 'Pierwsza wizyta',
-    'Ostatnia wizyta', 'GCLID', 'Ocena ryzyka', 'Powód oznaczenia',
+    'IP',
+    'Liczba wejść',
+    'Liczba kampanii',
+    'Pierwsza wizyta',
+    'Ostatnia wizyta',
+    'GCLID',
+    'Ocena ryzyka',
+    'Powód oznaczenia',
     'Status weryfikacji',
   ];
   const body = rows.map((row) =>
     [
-      row.ip, row.visitCount, row.campaignCount, row.firstVisit.toISOString(),
-      row.lastVisit.toISOString(), row.gclids, row.riskScore, row.reasons,
+      row.ip,
+      row.visitCount,
+      row.campaignCount,
+      row.firstVisit.toISOString(),
+      row.lastVisit.toISOString(),
+      row.gclids,
+      row.riskScore,
+      row.reasons,
       row.reviewStatus,
-    ].map(csvCell).join(','),
+    ]
+      .map(csvCell)
+      .join(','),
   );
   return `\ufeff${[header.map(csvCell).join(','), ...body].join('\r\n')}`;
 }
@@ -32,6 +42,7 @@ export function buildApprovedCsv(
 export async function GET(request: NextRequest) {
   const session = verifyAdminSession(request.cookies.get(ADMIN_COOKIE)?.value);
   if (!session) return new NextResponse(null, { status: 401 });
+  if (session.role !== 'owner') return new NextResponse(null, { status: 403 });
 
   const rows = await approvedIpReport();
 

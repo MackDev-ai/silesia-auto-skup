@@ -28,15 +28,23 @@ const schema = z.object({
 export async function POST(request: NextRequest) {
   const session = verifyAdminSession(request.cookies.get(ADMIN_COOKIE)?.value);
   if (!session) return new NextResponse(null, { status: 401 });
-  if (!validMutationOrigin(request)) return new NextResponse(null, { status: 403 });
+  if (session.role !== 'owner') return new NextResponse(null, { status: 403 });
+  if (!validMutationOrigin(request))
+    return new NextResponse(null, { status: 403 });
 
   const parsed = schema.safeParse(Object.fromEntries(await request.formData()));
-  if (!parsed.success) return new NextResponse('Nieprawidłowe dane.', { status: 400 });
+  if (!parsed.success)
+    return new NextResponse('Nieprawidłowe dane.', { status: 400 });
 
   const actorIp = resolveClientIp(request.headers);
-  if (!actorIp) return new NextResponse('Nie można ustalić adresu administratora.', { status: 400 });
+  if (!actorIp)
+    return new NextResponse('Nie można ustalić adresu administratora.', {
+      status: 400,
+    });
   if ((await recentAdminActions(actorIp)) >= 30) {
-    return new NextResponse('Zbyt wiele działań. Spróbuj ponownie za minutę.', { status: 429 });
+    return new NextResponse('Zbyt wiele działań. Spróbuj ponownie za minutę.', {
+      status: 429,
+    });
   }
 
   await applyIpAction({

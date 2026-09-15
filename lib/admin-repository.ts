@@ -17,13 +17,15 @@ export type VisitFilters = {
 
 export async function dashboardStats() {
   const sql = getDb();
-  const [stats] = await sql<{
-    visitsToday: number;
-    uniqueIps: number;
-    googleAdsVisits: number;
-    suspiciousVisits: number;
-    blockedVisits: number;
-  }[]>`
+  const [stats] = await sql<
+    {
+      visitsToday: number;
+      uniqueIps: number;
+      googleAdsVisits: number;
+      suspiciousVisits: number;
+      blockedVisits: number;
+    }[]
+  >`
     SELECT
       count(*) FILTER (WHERE created_at >= date_trunc('day', now()))::int AS "visitsToday",
       count(DISTINCT ip_hash) FILTER (WHERE created_at >= date_trunc('day', now()))::int AS "uniqueIps",
@@ -67,8 +69,8 @@ export async function listVisits(filters: VisitFilters) {
 
   const where = sql`
     (${normalized.search}::text IS NULL OR ip::text ILIKE '%' || ${normalized.search} || '%')
-    AND (${normalized.dateFrom}::date IS NULL OR created_at >= ${normalized.dateFrom}::date)
-    AND (${normalized.dateTo}::date IS NULL OR created_at < ${normalized.dateTo}::date + interval '1 day')
+    AND (${normalized.dateFrom}::date IS NULL OR created_at >= (${normalized.dateFrom}::date AT TIME ZONE 'Europe/Warsaw'))
+    AND (${normalized.dateTo}::date IS NULL OR created_at < ((${normalized.dateTo}::date + interval '1 day') AT TIME ZONE 'Europe/Warsaw'))
     AND (${normalized.campaign}::text IS NULL OR utm_campaign ILIKE '%' || ${normalized.campaign} || '%')
     AND (${normalized.decision}::text IS NULL OR decision = ${normalized.decision})
   `;
@@ -77,22 +79,24 @@ export async function listVisits(filters: VisitFilters) {
     SELECT count(*)::int AS total FROM visits WHERE ${where}
   `;
 
-  const baseQuery = sql<{
-    id: string;
-    ip: string;
-    createdAt: Date;
-    source: string | null;
-    utmCampaign: string | null;
-    gclid: string | null;
-    previousVisits: number;
-    riskScore: number;
-    decision: string;
-    riskReasons: string[];
-    blockStatus: string;
-    manualReviewStatus: string;
-    deviceType: string;
-    country: string | null;
-  }[]>`
+  const baseQuery = sql<
+    {
+      id: string;
+      ip: string;
+      createdAt: Date;
+      source: string | null;
+      utmCampaign: string | null;
+      gclid: string | null;
+      previousVisits: number;
+      riskScore: number;
+      decision: string;
+      riskReasons: string[];
+      blockStatus: string;
+      manualReviewStatus: string;
+      deviceType: string;
+      country: string | null;
+    }[]
+  >`
     SELECT v.id, v.ip::text AS ip, v.created_at, v.source, v.utm_campaign, v.gclid,
       v.previous_visits, v.risk_score, v.decision, v.risk_reasons,
       CASE
@@ -116,6 +120,76 @@ export async function listVisits(filters: VisitFilters) {
     page: normalized.page,
     pageSize: normalized.pageSize,
     pages: Math.max(1, Math.ceil(countRow.total / normalized.pageSize)),
+  };
+}
+
+export type VisitLogExportRow = {
+  createdAt: Date;
+  ip: string;
+  ipHash: string;
+  visitedPath: string;
+  landingPage: string | null;
+  source: string | null;
+  referrer: string | null;
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmTerm: string | null;
+  utmContent: string | null;
+  gclid: string | null;
+  userAgent: string | null;
+  deviceType: string;
+  country: string | null;
+  previousVisits: number;
+  riskScore: number;
+  decision: string;
+  riskReasons: string[];
+  blockStatus: string;
+  manualReviewStatus: string;
+  contactAction: string | null;
+  contactClickedAt: Date | null;
+};
+
+export const MAX_VISIT_LOG_EXPORT_ROWS = 50_000;
+
+export async function exportVisitLogs(filters: VisitFilters) {
+  const sql = getDb();
+  const normalized = normalizedFilters(filters);
+  const sortColumn = {
+    createdAt: 'created_at',
+    riskScore: 'risk_score',
+    previousVisits: 'previous_visits',
+  }[normalized.sort];
+  const where = sql`
+    (${normalized.search}::text IS NULL OR ip::text ILIKE '%' || ${normalized.search} || '%')
+    AND (${normalized.dateFrom}::date IS NULL OR created_at >= (${normalized.dateFrom}::date AT TIME ZONE 'Europe/Warsaw'))
+    AND (${normalized.dateTo}::date IS NULL OR created_at < ((${normalized.dateTo}::date + interval '1 day') AT TIME ZONE 'Europe/Warsaw'))
+    AND (${normalized.campaign}::text IS NULL OR utm_campaign ILIKE '%' || ${normalized.campaign} || '%')
+    AND (${normalized.decision}::text IS NULL OR decision = ${normalized.decision})
+  `;
+  const baseQuery = sql<VisitLogExportRow[]>`
+    SELECT created_at, ip::text AS ip, ip_hash, visited_path, landing_page,
+      source, referrer, utm_source, utm_medium, utm_campaign, utm_term,
+      utm_content, gclid, user_agent, device_type, country, previous_visits,
+      risk_score, decision, risk_reasons, block_status, manual_review_status,
+      contact_action, contact_clicked_at
+    FROM visits
+    WHERE ${where}
+  `;
+
+  const rows =
+    normalized.direction === 'asc'
+      ? await sql<
+          VisitLogExportRow[]
+        >`${baseQuery} ORDER BY ${sql(sortColumn)} ASC LIMIT ${MAX_VISIT_LOG_EXPORT_ROWS + 1}`
+      : await sql<
+          VisitLogExportRow[]
+        >`${baseQuery} ORDER BY ${sql(sortColumn)} DESC LIMIT ${MAX_VISIT_LOG_EXPORT_ROWS + 1}`;
+
+  return {
+    rows: rows.slice(0, MAX_VISIT_LOG_EXPORT_ROWS),
+    truncated: rows.length > MAX_VISIT_LOG_EXPORT_ROWS,
+    normalized,
   };
 }
 
@@ -157,7 +231,10 @@ export async function applyIpAction(input: IpActionInput) {
   const duration = Math.min(43_200, Math.max(5, input.durationMinutes ?? 60));
 
   await sql.begin(async (tx) => {
-    if (input.action === 'block_temporary' || input.action === 'block_indefinite') {
+    if (
+      input.action === 'block_temporary' ||
+      input.action === 'block_indefinite'
+    ) {
       await tx`UPDATE ip_allowlist SET active = false, updated_at = now() WHERE ip_hash = ${ipHash} AND active = true`;
       await tx`UPDATE ip_blocks SET active = false, updated_at = now() WHERE ip_hash = ${ipHash} AND active = true`;
       await tx`
