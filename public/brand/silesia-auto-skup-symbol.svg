@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" role="img" aria-label="Silesia Auto Skup — SAS">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" role="img" aria-labelledby="title description">
+  <title id="title">Silesia Auto Skup — symbol SAS</title>
+  <desc id="description">Czarne litery SAS na żółtym kole</desc>
   <circle cx="56" cy="56" r="48" fill="#fbbf24" />
   <text
     x="56"

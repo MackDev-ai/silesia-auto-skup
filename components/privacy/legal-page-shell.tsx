@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- the brand mark is a tiny local SVG and needs no raster optimization runtime */
 import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -16,13 +17,15 @@ export function LegalPageShell({ eyebrow, title, lead, children }: Props) {
     <main className="min-h-screen bg-[#f7f7f3] text-[#111210]">
       <header className="border-b border-black/10 bg-[#111210] px-5 py-5 text-white sm:px-8">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3" aria-label="Wróć na stronę główną">
-            <span className="grid size-10 place-items-center rounded-full bg-amber-400 text-xs font-black text-black">
-              SAS
-            </span>
-            <span className="max-w-36 text-sm font-extrabold uppercase leading-[0.95] text-amber-400">
-              {siteConfig.name}
-            </span>
+          <Link href="/" aria-label="Silesia Auto Skup — wróć na stronę główną">
+            <img
+              src="/brand/silesia-auto-skup-logo.svg"
+              alt="Silesia Auto Skup"
+              width={153}
+              height={40}
+              decoding="async"
+              className="h-10 w-auto"
+            />
           </Link>
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white">
             <ArrowLeft className="size-4" /> Strona główna

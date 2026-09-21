@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- the brand mark is a tiny local SVG and needs no raster optimization runtime */
 import {
   ArrowDown,
   ArrowRight,
@@ -122,9 +123,17 @@ export default function Home() {
 
       <header className="absolute inset-x-0 top-[41px] z-20 text-white">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
-          <a href="#start" className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-full bg-amber-400 text-[13px] font-black tracking-tighter text-black">SAS</span>
-            <span className="max-w-32 text-[15px] font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-amber-400">{siteConfig.name}</span>
+          <a href="#start" aria-label="Silesia Auto Skup — strona główna">
+            <img
+              src="/brand/silesia-auto-skup-logo.svg"
+              alt="Silesia Auto Skup"
+              width={153}
+              height={40}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="h-10 w-auto"
+            />
           </a>
           <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex" aria-label="Główna nawigacja">
             <a className="text-white/70 transition hover:text-white" href="#korzysci">Korzyści</a>
@@ -388,9 +397,16 @@ export default function Home() {
       <footer className="bg-[#111210] px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-10 text-white sm:px-8 lg:px-12 lg:pb-8">
         <div className="mx-auto max-w-[1340px]">
           <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-12 sm:flex-row sm:items-end">
-            <a href="#start" className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-full bg-amber-400 text-sm font-black text-black">SAS</span>
-              <span className="max-w-40 text-lg font-extrabold uppercase leading-[0.95] tracking-[-0.03em] text-amber-400">{siteConfig.name}</span>
+            <a href="#start" aria-label="Silesia Auto Skup — początek strony">
+              <img
+                src="/brand/silesia-auto-skup-logo.svg"
+                alt="Silesia Auto Skup"
+                width={169}
+                height={44}
+                loading="lazy"
+                decoding="async"
+                className="h-11 w-auto"
+              />
             </a>
             <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-white/55" aria-label="Nawigacja w stopce">
               <a className="hover:text-white" href="#korzysci">Korzyści</a>

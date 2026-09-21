@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 428 112" role="img" aria-labelledby="title description">
+  <title id="title">Silesia Auto Skup</title>
+  <desc id="description">Żółty znak SAS oraz nazwa Silesia Auto Skup</desc>
+  <circle cx="56" cy="56" r="48" fill="#fbbf24" />
+  <text
+    x="56"
+    y="65"
+    fill="#111210"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="26"
+    font-weight="900"
+    letter-spacing="-1.5"
+    text-anchor="middle"
+  >SAS</text>
+  <g fill="#fbbf24" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" letter-spacing="-1.7">
+    <text x="124" y="49">SILESIA AUTO</text>
+    <text x="124" y="86">SKUP</text>
+  </g>
+</svg>

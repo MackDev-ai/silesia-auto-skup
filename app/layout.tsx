@@ -43,7 +43,10 @@ export const metadata: Metadata = {
     description: 'Sprzedaj auto szybko. Bez zbędnych formalności.',
     images: siteConfig.siteUrl ? ['/og.jpg'] : undefined,
   },
-  icons: { icon: '/favicon.svg' },
+  icons: {
+    icon: '/brand/silesia-auto-skup-symbol.svg',
+    apple: '/brand/silesia-auto-skup-symbol.png',
+  },
 };
 
 export default function RootLayout({
