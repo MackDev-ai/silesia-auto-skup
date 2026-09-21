@@ -151,6 +151,12 @@ body {
   }
 }
 
+@media (min-width: 1280px) {
+  .contact-title {
+    font-size: clamp(3.25rem, 4vw, 4rem);
+  }
+}
+
 :root {
   --background: oklch(0.985 0.008 112);
   --foreground: oklch(0.16 0.01 112);

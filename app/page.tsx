@@ -358,7 +358,7 @@ export default function Home() {
       </section>
 
       <section id="kontakt" className="scroll-mt-10 bg-[#111210] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto grid min-w-0 max-w-[1180px] gap-8 overflow-hidden rounded-[28px] bg-amber-400 p-5 text-black sm:gap-10 sm:rounded-[32px] sm:p-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:p-14">
+        <div className="mx-auto grid min-w-0 max-w-[1180px] gap-8 overflow-hidden rounded-[28px] bg-amber-400 p-5 text-black sm:gap-10 sm:rounded-[32px] sm:p-10 lg:p-14 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-center">
           <div className="min-w-0">
             <span className="inline-flex items-center gap-2 rounded-full border border-black/15 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.15em]"><MessageCircle className="size-3.5" /> Kontakt</span>
             <h2 className="contact-title mt-6 font-black uppercase">Porozmawiajmy<br />o Twoim aucie.</h2>
