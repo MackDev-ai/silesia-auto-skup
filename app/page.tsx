@@ -213,7 +213,11 @@ export default function Home() {
                 kind={phoneEnabled ? 'phone_click' : undefined}
                 className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-amber-400 px-5 text-[13px] font-black text-black transition hover:bg-amber-300 sm:px-7 sm:text-sm"
               >
-                Porozmawiajmy o Twoim aucie <ArrowRight className="size-4" />
+                {phoneEnabled ? (
+                  <>Zadzwoń <span>{siteConfig.phoneDisplay}</span> <Phone className="size-4" /></>
+                ) : (
+                  <>Przejdź do kontaktu <ArrowRight className="size-4" /></>
+                )}
               </ContactLink>
               <a href="#jak-dzialamy" className="inline-flex h-14 items-center justify-center gap-2 rounded-full border border-white/20 px-7 text-sm font-bold text-white transition hover:bg-white/10">
                 Jak wygląda sprzedaż? <ArrowDown className="size-4" />

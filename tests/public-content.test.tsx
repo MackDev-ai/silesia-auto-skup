@@ -20,7 +20,7 @@ describe('public one-page', () => {
 
   it('includes a primary contact control and responsive image hints', () => {
     const html = renderToStaticMarkup(<Home />);
-    expect(html).toContain('Porozmawiajmy o Twoim aucie');
+    expect(html).toContain('Przejdź do kontaktu');
     expect(html).toContain('sizes="100vw"');
   });
 });
