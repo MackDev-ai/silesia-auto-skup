@@ -8,13 +8,11 @@ import {
   Check,
   CircleDot,
   Clock3,
-  FileCheck2,
   MapPin,
   MessageCircle,
   Phone,
   ShieldCheck,
   Truck,
-  Wrench,
 } from 'lucide-react';
 
 import { ContactLink } from '@/components/site/contact-link';
@@ -23,20 +21,32 @@ import { siteConfig } from '@/lib/config';
 
 const areas = [
   'Katowice',
+  'Chorzów',
   'Gliwice',
   'Zabrze',
   'Bytom',
   'Ruda Śląska',
-  'Chorzów',
   'Tychy',
   'Sosnowiec',
+  'Mysłowice',
+  'Siemianowice Śląskie',
+  'Świętochłowice',
+  'Dąbrowa Górnicza',
+  'Jaworzno',
+  'Piekary Śląskie',
+  'Będzin',
+  'Czeladź',
+  'Tarnowskie Góry',
+  'Mikołów',
+  'Rybnik',
+  'Żory',
 ];
 
 const faqs = [
   {
     question: 'Jakie samochody rozpatrujecie do zakupu?',
     answer:
-      'Indywidualnie wyceniamy samochody osobowe i dostawcze: sprawne, uszkodzone, powypadkowe, z dużym przebiegiem oraz bez ważnego przeglądu lub OC. Ostateczna decyzja zależy od stanu i dokumentów pojazdu.',
+      'Indywidualnie wyceniamy samochody osobowe i dostawcze. Podczas rozmowy poznajemy markę, model, rocznik, przebieg, stan i dokumenty pojazdu. Ostateczna decyzja zależy od konkretnego auta.',
   },
   {
     question: 'Czy dojeżdżacie do klienta?',
@@ -74,8 +84,8 @@ function structuredData() {
     areaServed: areas.map((name) => ({ '@type': 'City', name })),
     knowsAbout: [
       'skup aut Śląsk',
-      'skup samochodów uszkodzonych',
-      'skup aut powypadkowych',
+      'sprzedaż samochodu Śląsk',
+      'wycena samochodu Śląsk',
     ],
   };
   if (siteConfig.siteUrl) business.url = siteConfig.siteUrl;
@@ -84,6 +94,9 @@ function structuredData() {
   if (siteConfig.email) business.email = siteConfig.email;
   if (siteConfig.address) business.address = siteConfig.address;
   if (siteConfig.nip) business.taxID = siteConfig.nip;
+  if (siteConfig.googleBusinessUrl) {
+    business.sameAs = [siteConfig.googleBusinessUrl];
+  }
 
   return [
     business,
@@ -205,7 +218,7 @@ export default function Home() {
               <span className="text-amber-400">szybko.</span> Bez<br />zbędnych formalności.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
-              Skupujemy samochody sprawne, uszkodzone i powypadkowe na terenie całego Śląska. Zapewniamy indywidualną wycenę, możliwość odbioru pojazdu i minimum formalności.
+              Skupujemy samochody osobowe i dostawcze na terenie całego Śląska. Zapewniamy indywidualną wycenę, możliwość odbioru pojazdu i minimum formalności.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ContactLink
@@ -296,10 +309,8 @@ export default function Home() {
               [CarFront, 'Samochody osobowe'],
               [Truck, 'Samochody dostawcze'],
               [Check, 'Pojazdy sprawne'],
-              [Wrench, 'Samochody uszkodzone'],
-              [ShieldCheck, 'Auta powypadkowe'],
-              [Clock3, 'Auta z dużym przebiegiem'],
-              [FileCheck2, 'Bez ważnego przeglądu lub OC'],
+              [ShieldCheck, 'Auta różnych marek'],
+              [Clock3, 'Różne roczniki'],
             ].map(([Icon, label]) => {
               const VehicleIcon = Icon as typeof CarFront;
               return (
@@ -320,7 +331,7 @@ export default function Home() {
               <p className="eyebrow">Lokalnie na Śląsku</p>
               <h2 className="section-title mt-4">Działamy<br />w całym regionie.</h2>
               <p className="mt-6 max-w-lg text-base leading-7 text-[#656a60]">
-                Obsługujemy między innymi Katowice, Gliwice, Zabrze, Bytom, Rudę Śląską, Chorzów, Tychy i Sosnowiec. Możliwość dojazdu do innych miejscowości potwierdzamy indywidualnie.
+                Obsługujemy Katowice, Chorzów, Gliwice, Zabrze, Bytom, Rudę Śląską, Tychy, Sosnowiec oraz wiele innych miast regionu. Możliwość dojazdu do pozostałych miejscowości potwierdzamy indywidualnie.
               </p>
               <a href="#kontakt" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#111210] px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-[#2b2e28]">
                 Przejdź do kontaktu <ArrowRight className="size-4" />
@@ -328,13 +339,13 @@ export default function Home() {
             </div>
             <div className="relative overflow-hidden rounded-[28px] border border-[#d0d4c9] bg-[#e2e5dc] p-6 sm:p-9">
               <div className="absolute -right-20 -top-24 size-72 rounded-full border-[54px] border-amber-400/70" />
-              <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
                 {areas.map((city, index) => (
-                  <div key={city} className={`flex min-h-24 items-end rounded-2xl border p-4 ${index === 0 ? 'border-[#111210] bg-[#111210] text-white' : 'border-[#c8cdc0] bg-[#f8f9f5]'}`}>
+                  <div key={city} className={`flex min-h-20 items-end rounded-2xl border p-4 ${index === 0 ? 'border-[#111210] bg-[#111210] text-white' : 'border-[#c8cdc0] bg-[#f8f9f5]'}`}>
                     <span className="flex items-center gap-2 text-sm font-bold"><MapPin className={`size-4 ${index === 0 ? 'text-amber-400' : 'text-[#777d70]'}`} />{city}</span>
                   </div>
                 ))}
-                <div className="flex min-h-24 items-center justify-center rounded-2xl border border-dashed border-[#aeb4a5] p-4 text-center text-sm font-bold text-[#595e55]">Inne miejscowości po potwierdzeniu</div>
+                <div className="flex min-h-20 items-center justify-center rounded-2xl border border-dashed border-[#aeb4a5] p-4 text-center text-sm font-bold text-[#595e55]">Inne miejscowości po potwierdzeniu</div>
               </div>
             </div>
           </div>
@@ -400,7 +411,7 @@ export default function Home() {
 
       <footer className="bg-[#111210] px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-10 text-white sm:px-8 lg:px-12 lg:pb-8">
         <div className="mx-auto max-w-[1340px]">
-          <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-12 sm:flex-row sm:items-end">
+          <div className="grid gap-8 border-b border-white/10 pb-12 md:grid-cols-[auto_minmax(280px,1fr)_auto] md:items-end">
             <a href="#start" aria-label="Silesia Auto Skup — początek strony">
               <img
                 src="/brand/silesia-auto-skup-logo.svg"
@@ -412,7 +423,26 @@ export default function Home() {
                 className="h-11 w-auto"
               />
             </a>
-            <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-white/55" aria-label="Nawigacja w stopce">
+            {siteConfig.googleBusinessUrl && (
+              <a
+                href={siteConfig.googleBusinessUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Otwórz wizytówkę Silesia Auto Skup w Google Maps"
+                className="group flex max-w-md items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:border-amber-400/50 hover:bg-white/[0.07] md:justify-self-center"
+              >
+                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-amber-400 text-black">
+                  <MapPin className="size-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-amber-400">Wizytówka Google</span>
+                  <span className="mt-1 block font-extrabold text-white">{siteConfig.name}</span>
+                  {siteConfig.address && <span className="mt-0.5 block text-xs text-white/55">{siteConfig.address}</span>}
+                </span>
+                <ArrowUpRight className="ml-auto size-5 shrink-0 text-white/45 transition group-hover:text-amber-400" />
+              </a>
+            )}
+            <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm font-semibold text-white/55 md:justify-end" aria-label="Nawigacja w stopce">
               <a className="hover:text-white" href="#korzysci">Korzyści</a>
               <a className="hover:text-white" href="#jak-dzialamy">Jak działamy</a>
               <a className="hover:text-white" href="#pojazdy">Pojazdy</a>

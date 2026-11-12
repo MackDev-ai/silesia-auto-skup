@@ -67,6 +67,7 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
 | `COMPANY_NIP` | NIP dodawany do danych strukturalnych dopiero po uzupełnieniu |
 | `COMPANY_ADDRESS` | Adres działalności |
 | `WHATSAPP_NUMBER` | Numer E.164 aktywujący przycisk WhatsApp |
+| `GOOGLE_BUSINESS_URL` | Bezpośredni link do wizytówki Google lub Google Maps; gdy pusty, link jest budowany z nazwy i adresu firmy |
 | `GOOGLE_TAG_MANAGER_ID` | Identyfikator kontenera, np. `GTM-...`; pusty = GTM wyłączony |
 | `DATABASE_URL` | Połączenie z PostgreSQL |
 | `DATABASE_SSL` | `true` na hostingu z TLS; lokalnie zwykle `false` |
@@ -89,6 +90,7 @@ Ustaw wyłącznie prawdziwe dane:
 ```dotenv
 CONTACT_PHONE="+48XXXXXXXXX"
 WHATSAPP_NUMBER="+48XXXXXXXXX"
+GOOGLE_BUSINESS_URL="https://maps.app.goo.gl/..."
 ```
 
 Po ponownym uruchomieniu przyciski „Skontaktuj się” i mobilny sticky CTA użyją `tel:`. Przycisk WhatsApp zostanie dodany w sekcji kontaktowej. Kliknięcia są zapisywane jako zdarzenia bezpieczeństwa/jakości ruchu bez tworzenia profilu reklamowego.

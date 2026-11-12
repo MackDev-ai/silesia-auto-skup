@@ -37,12 +37,36 @@ const cleanSiteUrl = (value: string) => {
 const cleanGoogleTagManagerId = (value: string) =>
   /^GTM-[A-Z0-9]+$/i.test(value) ? value.toUpperCase() : '';
 
+const cleanGoogleBusinessUrl = (value: string) => {
+  if (!value) return '';
+  try {
+    const url = new URL(value);
+    const allowedHosts = new Set([
+      'google.com',
+      'www.google.com',
+      'maps.google.com',
+      'maps.app.goo.gl',
+      'goo.gl',
+    ]);
+    return url.protocol === 'https:' && allowedHosts.has(url.hostname)
+      ? url.toString()
+      : '';
+  } catch {
+    return '';
+  }
+};
+
 const configuredPhone = cleanPhone(envText('CONTACT_PHONE'));
 const configuredWhatsApp = cleanPhone(envText('WHATSAPP_NUMBER'));
 const configuredSiteUrl = cleanSiteUrl(envText('SITE_URL'));
+const configuredName = envText('COMPANY_NAME') || 'Silesia Auto Skup';
+const configuredAddress = envText('COMPANY_ADDRESS');
+const configuredGoogleBusinessUrl = cleanGoogleBusinessUrl(
+  envText('GOOGLE_BUSINESS_URL'),
+);
 
 export const siteConfig = Object.freeze({
-  name: envText('COMPANY_NAME') || 'Silesia Auto Skup',
+  name: configuredName,
   legalName: envText('COMPANY_LEGAL_NAME'),
   phone: configuredPhone,
   phoneDisplay: displayPhone(configuredPhone),
@@ -50,7 +74,7 @@ export const siteConfig = Object.freeze({
   email: envText('CONTACT_EMAIL'),
   siteUrl: configuredSiteUrl,
   nip: envText('COMPANY_NIP'),
-  address: envText('COMPANY_ADDRESS'),
+  address: configuredAddress,
   whatsAppNumber: configuredWhatsApp,
   whatsAppHref: configuredWhatsApp
     ? `https://wa.me/${configuredWhatsApp.replace('+', '')}`
@@ -58,6 +82,13 @@ export const siteConfig = Object.freeze({
   googleTagManagerId: cleanGoogleTagManagerId(
     envText('GOOGLE_TAG_MANAGER_ID'),
   ),
+  googleBusinessUrl:
+    configuredGoogleBusinessUrl ||
+    (configuredAddress
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          `${configuredName}, ${configuredAddress}`,
+        )}`
+      : ''),
   contactReady: Boolean(configuredPhone),
 });
 

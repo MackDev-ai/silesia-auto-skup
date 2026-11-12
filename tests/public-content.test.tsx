@@ -9,6 +9,9 @@ describe('public one-page', () => {
     expect(html).toContain('Sprzedaj auto');
     expect(html).toContain('Dane kontaktowe w przygotowaniu');
     expect(html).toContain('Katowice');
+    expect(html).toContain('Rybnik');
+    expect(html).toContain('Dąbrowa Górnicza');
+    expect(html).not.toMatch(/uszkodzon|powypadkow/i);
     expect(html).toContain('/polityka-prywatnosci');
     expect(html).toContain('/polityka-cookies');
     expect(html).toContain('/brand/silesia-auto-skup-logo.svg');

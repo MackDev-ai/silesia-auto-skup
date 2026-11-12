@@ -9,15 +9,14 @@ export const metadata: Metadata = {
   metadataBase: siteConfig.siteUrl ? new URL(siteConfig.siteUrl) : undefined,
   title: `${siteConfig.name} — skup aut i samochodów na Śląsku`,
   description:
-    'Skup samochodów na Śląsku: auta sprawne, uszkodzone i powypadkowe. Indywidualna wycena, możliwość odbioru pojazdu i minimum formalności.',
+    'Skup samochodów osobowych i dostawczych na Śląsku. Indywidualna wycena, możliwość odbioru pojazdu i minimum formalności.',
   keywords: [
     'skup aut Śląsk',
     'skup samochodów Śląsk',
     'skup aut Katowice',
     'skup aut Zabrze',
-    'skup samochodów uszkodzonych Śląsk',
     'sprzedaż samochodu Śląsk',
-    'skup aut powypadkowych Śląsk',
+    'wycena samochodu Śląsk',
   ],
   alternates: siteConfig.siteUrl ? { canonical: siteConfig.siteUrl } : undefined,
   robots: { index: true, follow: true },
