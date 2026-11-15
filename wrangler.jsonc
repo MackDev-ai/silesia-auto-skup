@@ -4,9 +4,7 @@
   "workers_dev": true,
   "preview_urls": true,
   "compatibility_date": "2026-09-03",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "INFRA_PROVIDER": "cloudflare",
     "DATABASE_SSL": "true",
@@ -16,38 +14,38 @@
     "CONTACT_PHONE": "+48503586402",
     "WHATSAPP_NUMBER": "+48503586402",
     "CONTACT_EMAIL": "lasdarek98@gmail.com",
+    "CONTACT_FORM_TO": "silesiaautoskup@gmail.com",
+    "CONTACT_FORM_FROM": "Silesia Auto Skup <formularz@mail.silesiaautoskup.pl>",
     "COMPANY_ADDRESS": "Wolności 104, 41-500 Chorzów",
     "GOOGLE_BUSINESS_URL": "https://www.google.com/maps/search/?api=1&query=Silesia%20Auto%20Skup%2C%20Wolno%C5%9Bci%20104%2C%2041-500%20Chorz%C3%B3w",
-    "GOOGLE_TAG_MANAGER_ID": "GTM-553V8L52"
+    "GOOGLE_TAG_MANAGER_ID": "GTM-553V8L52",
   },
   "routes": [
     {
       "pattern": "silesiaautoskup.pl",
-      "custom_domain": true
+      "custom_domain": true,
     },
     {
       "pattern": "www.silesiaautoskup.pl",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
   "main": "worker.ts",
   "assets": {
     "directory": "dist/client",
     "not_found_handling": "none",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "cache": {
-    "enabled": true
+    "enabled": true,
   },
   "version_metadata": {
-    "binding": "CF_VERSION_METADATA"
+    "binding": "CF_VERSION_METADATA",
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "triggers": {
-    "crons": [
-      "15 3 * * *"
-    ]
-  }
+    "crons": ["15 3 * * *"],
+  },
 }

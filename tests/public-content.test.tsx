@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import Home from '@/app/page';
 
 describe('public one-page', () => {
-  it('renders the essential content without browser JavaScript or public forms', () => {
+  it('renders the essential content and contact form without browser JavaScript', () => {
     const html = renderToStaticMarkup(<Home />);
     expect(html).toContain('Sprzedaj auto');
     expect(html).toContain('Dane kontaktowe w przygotowaniu');
@@ -17,8 +17,10 @@ describe('public one-page', () => {
     expect(html).toContain('/brand/silesia-auto-skup-logo.svg');
     expect(html).toContain('alt="Silesia Auto Skup"');
     expect(html).not.toContain('Ustawienia cookies');
-    expect(html).not.toContain('<form');
-    expect(html).not.toContain('Numer telefonu</label>');
+    expect(html).toContain('<form');
+    expect(html).toContain('Formularz kontaktowy');
+    expect(html).toContain('name="message"');
+    expect(html).toContain('/polityka-prywatnosci');
   });
 
   it('includes a primary contact control and responsive image hints', () => {

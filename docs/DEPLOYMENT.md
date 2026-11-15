@@ -73,7 +73,26 @@ Cron Trigger. Na innym hostingu codziennie wywołuj `POST /api/cron/retention` z
 nagłówkiem `Authorization: Bearer <CRON_SECRET>`. Nie umieszczaj
 `CRON_SECRET` w adresie URL.
 
-### 5. Publikacja
+### 5. Formularz kontaktowy i Resend
+
+Formularz nie zapisuje treści wiadomości w bazie monitoringu. Worker wysyła ją
+przez API Resend bezpośrednio na adres ustawiony w `CONTACT_FORM_TO`.
+
+1. Utwórz bezpłatne konto Resend i dodaj domenę nadawczą
+   `mail.silesiaautoskup.pl`.
+2. Dodaj w Cloudflare rekordy DNS wskazane przez Resend. Nie zmieniaj rekordów
+   MX domeny głównej obsługiwanych przez OVH.
+3. Po uzyskaniu statusu domeny **Verified** utwórz klucz API z uprawnieniem do
+   wysyłki i zapisz go jako sekret Workera `RESEND_API_KEY`.
+4. Ustaw `CONTACT_FORM_FROM="Silesia Auto Skup <formularz@mail.silesiaautoskup.pl>"` oraz
+   `CONTACT_FORM_TO=silesiaautoskup@gmail.com`.
+5. Po wdrożeniu wyślij wiadomość testową i sprawdź folder spam.
+
+Adres docelowy pozostaje stałą konfiguracją Workera. Endpoint sprawdza origin,
+rozmiar i poprawność danych, korzysta z honeypota oraz ogranicza liczbę prób z
+jednego IP. Śledzenie otwarć i kliknięć powinno pozostać wyłączone w Resend.
+
+### 6. Publikacja
 
 Dopiero po ustawieniu bazy, migracji, sekretów i danych prawnych:
 
@@ -86,7 +105,7 @@ Polecenie `cf:deploy` tworzy publiczne wdrożenie Workers, dlatego uruchamiaj je
 
 Po wdrożeniu zweryfikuj HTTP 403 dla testowo zablokowanego IP, rzeczywisty `CF-Connecting-IP`, logowanie `/admin`, zapis UTM/GCLID, retencję i brak publicznego dostępu do statystyk.
 
-### 6. GTM, CMP, GA4 i Google Ads
+### 7. GTM, CMP, GA4 i Google Ads
 
 1. Ustaw `GOOGLE_TAG_MANAGER_ID` na identyfikator `GTM-...` i wdróż aplikację.
 2. W GTM skonfiguruj certyfikowaną platformę CMP na wyzwalaczu `Consent Initialization - All Pages`.

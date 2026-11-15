@@ -6,7 +6,7 @@ Kod działa samodzielnie na hostingu właściciela. Własny monitoring bezpiecze
 
 ## Stan wersji roboczej
 
-- brak publicznego formularza — strona nie zbiera danych osoby sprzedającej ani danych auta;
+- bezpieczny formularz kontaktowy bez formularza wyceny — wiadomość trafia bezpośrednio na skrzynkę firmy i nie jest zapisywana w bazie monitoringu;
 - brak fikcyjnego telefonu i danych firmy;
 - CTA przewijają do sekcji „Dane kontaktowe w przygotowaniu”;
 - po ustawieniu `CONTACT_PHONE` CTA automatycznie używają `tel:+48...`;
@@ -38,6 +38,7 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
    ```
 
    Wynik wklej jako `ADMIN_PASSWORD_HASH` do `.env.local`.
+
 4. Uruchom PostgreSQL:
 
    ```powershell
@@ -45,6 +46,7 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
    ```
 
    Jeżeli Docker nie jest dostępny, utwórz zwykłą bazę PostgreSQL i ustaw jej adres w `DATABASE_URL`.
+
 5. Wykonaj migracje i uruchom aplikację:
 
    ```powershell
@@ -57,31 +59,34 @@ Wymagania: Node.js 22.13+ oraz PostgreSQL 15+ albo Docker.
 
 ## Zmienne środowiskowe
 
-| Zmienna | Znaczenie |
-|---|---|
-| `COMPANY_NAME` | Nazwa firmy; domyślnie „Silesia Auto Skup” |
-| `COMPANY_LEGAL_NAME` | Imię i nazwisko właściciela lub pełna nazwa prawna |
-| `CONTACT_PHONE` | Telefon w formacie E.164, np. `+48...`; pusty = kontakt w przygotowaniu |
-| `CONTACT_EMAIL` | Prawdziwy e-mail firmy; pusty nie jest publicznie wyświetlany |
-| `SITE_URL` | Pełny origin, np. `https://domena.pl`; steruje canonical i sitemapą |
-| `COMPANY_NIP` | NIP dodawany do danych strukturalnych dopiero po uzupełnieniu |
-| `COMPANY_ADDRESS` | Adres działalności |
-| `WHATSAPP_NUMBER` | Numer E.164 aktywujący przycisk WhatsApp |
-| `GOOGLE_BUSINESS_URL` | Bezpośredni link do wizytówki Google lub Google Maps; gdy pusty, link jest budowany z nazwy i adresu firmy |
-| `GOOGLE_TAG_MANAGER_ID` | Identyfikator kontenera, np. `GTM-...`; pusty = GTM wyłączony |
-| `DATABASE_URL` | Połączenie z PostgreSQL |
-| `DATABASE_SSL` | `true` na hostingu z TLS; lokalnie zwykle `false` |
-| `DATABASE_POOL_SIZE` | Maksymalna liczba połączeń procesu, domyślnie 5 |
-| `INFRA_PROVIDER` | `direct`, `trusted-proxy`, `vercel` lub `cloudflare` |
-| `TRUSTED_PROXY_IP_HEADER` | Nagłówek ustawiany i czyszczony przez własny reverse proxy, domyślnie `x-real-ip` |
-| `VERIFY_SEARCH_BOTS_DNS` | Weryfikacja reverse+forward DNS Googlebota/Bingbota |
-| `IP_HASH_SECRET` | Klucz HMAC do pseudonimizacji IP; nie zmieniać bez planu migracji |
-| `SESSION_SECRET` | Klucz podpisu sesji administratora |
-| `ADMIN_EMAIL` | Jedyny dozwolony login administratora |
-| `ADMIN_PASSWORD_HASH` | Hash z `npm run admin:hash-password`; nigdy jawne hasło |
-| `CRON_SECRET` | Token zadania retencji |
-| `DATA_RETENTION_DAYS` | Retencja wizyt, domyślnie 30 dni |
-| `RISK_*` | Centralne progi i punkty opisane w `.env.example` |
+| Zmienna                   | Znaczenie                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `COMPANY_NAME`            | Nazwa firmy; domyślnie „Silesia Auto Skup”                                                                 |
+| `COMPANY_LEGAL_NAME`      | Imię i nazwisko właściciela lub pełna nazwa prawna                                                         |
+| `CONTACT_PHONE`           | Telefon w formacie E.164, np. `+48...`; pusty = kontakt w przygotowaniu                                    |
+| `CONTACT_EMAIL`           | Prawdziwy e-mail firmy; pusty nie jest publicznie wyświetlany                                              |
+| `CONTACT_FORM_TO`         | Stały adres odbiorcy wiadomości z formularza                                                               |
+| `CONTACT_FORM_FROM`       | Adres nadawcy w domenie zweryfikowanej w Resend                                                            |
+| `RESEND_API_KEY`          | Sekretny klucz API Resend używany wyłącznie po stronie Workera                                             |
+| `SITE_URL`                | Pełny origin, np. `https://domena.pl`; steruje canonical i sitemapą                                        |
+| `COMPANY_NIP`             | NIP dodawany do danych strukturalnych dopiero po uzupełnieniu                                              |
+| `COMPANY_ADDRESS`         | Adres działalności                                                                                         |
+| `WHATSAPP_NUMBER`         | Numer E.164 aktywujący przycisk WhatsApp                                                                   |
+| `GOOGLE_BUSINESS_URL`     | Bezpośredni link do wizytówki Google lub Google Maps; gdy pusty, link jest budowany z nazwy i adresu firmy |
+| `GOOGLE_TAG_MANAGER_ID`   | Identyfikator kontenera, np. `GTM-...`; pusty = GTM wyłączony                                              |
+| `DATABASE_URL`            | Połączenie z PostgreSQL                                                                                    |
+| `DATABASE_SSL`            | `true` na hostingu z TLS; lokalnie zwykle `false`                                                          |
+| `DATABASE_POOL_SIZE`      | Maksymalna liczba połączeń procesu, domyślnie 5                                                            |
+| `INFRA_PROVIDER`          | `direct`, `trusted-proxy`, `vercel` lub `cloudflare`                                                       |
+| `TRUSTED_PROXY_IP_HEADER` | Nagłówek ustawiany i czyszczony przez własny reverse proxy, domyślnie `x-real-ip`                          |
+| `VERIFY_SEARCH_BOTS_DNS`  | Weryfikacja reverse+forward DNS Googlebota/Bingbota                                                        |
+| `IP_HASH_SECRET`          | Klucz HMAC do pseudonimizacji IP; nie zmieniać bez planu migracji                                          |
+| `SESSION_SECRET`          | Klucz podpisu sesji administratora                                                                         |
+| `ADMIN_EMAIL`             | Jedyny dozwolony login administratora                                                                      |
+| `ADMIN_PASSWORD_HASH`     | Hash z `npm run admin:hash-password`; nigdy jawne hasło                                                    |
+| `CRON_SECRET`             | Token zadania retencji                                                                                     |
+| `DATA_RETENTION_DAYS`     | Retencja wizyt, domyślnie 30 dni                                                                           |
+| `RISK_*`                  | Centralne progi i punkty opisane w `.env.example`                                                          |
 
 ## Dodanie telefonu i WhatsAppa
 
@@ -163,7 +168,7 @@ npm run build
 npx playwright test
 ```
 
-Vitest obejmuje reguły `allow/review/block`, białą i czarną listę, UTM/GCLID, odporność na fałszywy `X-Forwarded-For`, ochronę panelu i mutacji, CSV, retencję, działanie treści bez JavaScript oraz koszt CPU silnika ryzyka. Playwright sprawdza widok desktop/mobile, mobilne CTA, brak publicznych formularzy, treść bez JS i czas odpowiedzi.
+Vitest obejmuje reguły `allow/review/block`, białą i czarną listę, UTM/GCLID, odporność na fałszywy `X-Forwarded-For`, ochronę panelu i mutacji, CSV, retencję, formularz kontaktowy, działanie treści bez JavaScript oraz koszt CPU silnika ryzyka. Playwright sprawdza widok desktop/mobile, mobilne CTA, treść bez JS i czas odpowiedzi.
 
 ## Wdrożenie
 

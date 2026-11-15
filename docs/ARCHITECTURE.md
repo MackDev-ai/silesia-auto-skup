@@ -23,7 +23,7 @@ Indeksy pokrywają IP/hash, czas, decyzję, kampanię, `gclid`, blokadę i ręcz
 
 ## Granice bezpieczeństwa
 
-- publiczna strona nie ma formularzy ani endpointu przyjmującego leady;
+- publiczna strona ma prosty formularz kontaktowy bez danych pojazdu; wiadomość jest wysyłana przez API Resend i nie trafia do bazy monitoringu;
 - panel ma osobną trasę, sesję HttpOnly/SameSite=Strict, CSP i `noindex`;
 - hasło nie istnieje w kodzie, przechowywany jest wyłącznie mocny hash PBKDF2;
 - endpointy modyfikujące wymagają sesji i zgodnego originu;

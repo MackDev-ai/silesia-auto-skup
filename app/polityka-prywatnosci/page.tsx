@@ -49,9 +49,10 @@ export default function PrivacyPolicyPage() {
       <section>
         <h2>2. Zakres i źródło danych</h2>
         <p>
-          Strona nie zawiera formularza wyceny ani formularza kontaktowego. Nie
-          zbieramy przez nią marki, modelu, rocznika, przebiegu auta ani danych
-          właściciela pojazdu.
+          Strona nie zawiera formularza wyceny. Formularz kontaktowy pozwala
+          dobrowolnie podać imię, numer telefonu, adres e-mail oraz treść
+          wiadomości. Wystarczy podać co najmniej jeden sposób kontaktu: telefon
+          lub e-mail. Dane są przekazywane wyłącznie w celu obsługi zapytania.
         </p>
         <p>
           Podczas wizyty serwer może przetwarzać ograniczone dane techniczne:
@@ -76,6 +77,10 @@ export default function PrivacyPolicyPage() {
           <li>
             informację o kliknięciu w telefon lub WhatsApp, bez treści rozmowy i
             bez numeru użytkownika.
+          </li>
+          <li>
+            w przypadku formularza kontaktowego: podane imię, numer telefonu,
+            adres e-mail i treść wiadomości.
           </li>
         </ul>
         <p>
@@ -154,11 +159,12 @@ export default function PrivacyPolicyPage() {
         <p>
           Dane mogą być powierzane dostawcom niezbędnym do działania serwisu:
           Cloudflare (hosting, sieć i bezpieczeństwo), Neon (baza PostgreSQL),
-          dostawcy poczty i telekomunikacji oraz — tylko po zgodzie — Google w
-          zakresie usług analitycznych lub reklamowych. Dostęp do ograniczonego
-          zakresu logów może otrzymać upoważniony podmiot obsługujący analitykę
-          i kampanie, wyłącznie w zakresie niezbędnym do analizy jakości oraz
-          bezpieczeństwa ruchu.
+          Resend (dostarczenie wiadomości z formularza), dostawcy poczty i
+          telekomunikacji oraz — tylko po zgodzie — Google w zakresie usług
+          analitycznych lub reklamowych. Dostęp do ograniczonego zakresu logów
+          może otrzymać upoważniony podmiot obsługujący analitykę i kampanie,
+          wyłącznie w zakresie niezbędnym do analizy jakości oraz bezpieczeństwa
+          ruchu.
         </p>
         <p>
           Niektórzy dostawcy mogą przetwarzać dane poza Europejskim Obszarem
@@ -186,7 +192,10 @@ export default function PrivacyPolicyPage() {
           </li>
           <li>
             dane z kontaktu: przez czas niezbędny do obsługi zapytania,
-            realizacji umowy i okresu przedawnienia ewentualnych roszczeń.
+            realizacji umowy i okresu przedawnienia ewentualnych roszczeń;
+            wiadomość z formularza jest przekazywana do skrzynki firmowej przez
+            Resend, który na planie bezpłatnym deklaruje retencję danych do 30
+            dni; treść nie jest zapisywana w bazie monitoringu strony.
           </li>
         </ul>
       </section>
