@@ -84,7 +84,7 @@ export async function monitorVisit(input: MonitorInput): Promise<MonitorResult> 
         (SELECT max(created_at) FROM visits WHERE ip_hash = ${ipHash}) AS "lastVisitAt",
         (SELECT count(*)::int FROM risk_events
           WHERE ip_hash = ${ipHash}
-            AND event_type IN ('phone_click', 'whatsapp_click')
+            AND event_type IN ('phone_click', 'whatsapp_click', 'form_submit')
             AND created_at >= now() - interval '30 days') AS "contactActions",
         EXISTS(SELECT 1 FROM ip_allowlist WHERE ip_hash = ${ipHash} AND active = true) AS allowlisted,
         (SELECT source FROM ip_blocks
@@ -193,7 +193,7 @@ export async function monitorVisit(input: MonitorInput): Promise<MonitorResult> 
 export async function recordContactAction(
   ip: string,
   visitId: string | null,
-  action: 'phone_click' | 'whatsapp_click',
+  action: 'phone_click' | 'whatsapp_click' | 'form_submit',
 ) {
   if (!databaseConfigured() || !process.env.IP_HASH_SECRET) {
     return 'not_configured' as const;
@@ -214,7 +214,7 @@ export async function recordContactAction(
       SELECT count(*)::int AS count
       FROM risk_events
       WHERE ip_hash = ${ipHash}
-        AND event_type IN ('phone_click', 'whatsapp_click')
+        AND event_type IN ('phone_click', 'whatsapp_click', 'form_submit')
         AND created_at >= now() - interval '1 minute'
     `;
     if (rate.count >= 10) return 'rate_limited' as const;

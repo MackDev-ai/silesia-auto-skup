@@ -6,7 +6,7 @@ import { resolveClientIp } from '@/lib/security/ip';
 import { recordContactAction } from '@/lib/security/monitor';
 
 const schema = z.object({
-  action: z.enum(['phone_click', 'whatsapp_click']),
+  action: z.enum(['phone_click', 'whatsapp_click', 'form_submit']),
 });
 
 export async function POST(request: NextRequest) {

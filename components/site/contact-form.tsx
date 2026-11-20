@@ -11,6 +11,27 @@ type FormStatus =
 
 const initialStatus: FormStatus = { state: 'idle', message: '' };
 
+// Records a successful form submission the same way phone/WhatsApp clicks are
+// recorded: server-side in the visit log (independent of cookie consent) and as
+// a dataLayer event that a Google Tag Manager tag can pick up.
+function recordFormSubmit() {
+  void fetch('/api/events/contact', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'form_submit' }),
+    keepalive: true,
+  }).catch(() => undefined);
+
+  const w = window as Window & { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer || [];
+  w.dataLayer.push({
+    event: 'form_submit',
+    contact_method: 'form',
+    page_location: window.location.href,
+    page_path: `${window.location.pathname}${window.location.search}`,
+  });
+}
+
 export function ContactForm() {
   const [startedAt, setStartedAt] = useState(() => Date.now());
   const [status, setStatus] = useState<FormStatus>(initialStatus);
@@ -62,6 +83,7 @@ export function ContactForm() {
         );
       }
 
+      recordFormSubmit();
       form.reset();
       setStartedAt(Date.now());
       setStatus({
