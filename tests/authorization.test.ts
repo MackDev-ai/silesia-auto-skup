@@ -7,6 +7,7 @@ import {
   ADMIN_COOKIE,
   createAdminSession,
   passwordHashForSetup,
+  originsMatch,
   validMutationOrigin,
   verifyPassword,
 } from '@/lib/security/auth';
@@ -78,5 +79,21 @@ describe('administrator authorization', () => {
     const unsupportedHash = 'pbkdf2_sha256$210000$c2FsdA$aGFzaA';
 
     expect(verifyPassword('any password', unsupportedHash)).toBe(false);
+  });
+});
+
+describe('origin check', () => {
+  it('treats the www subdomain as the same site', () => {
+    expect(originsMatch('https://www.silesiaautoskup.pl', 'https://silesiaautoskup.pl')).toBe(true);
+    expect(originsMatch('https://silesiaautoskup.pl', 'https://www.silesiaautoskup.pl')).toBe(true);
+    expect(originsMatch('https://silesiaautoskup.pl', 'https://silesiaautoskup.pl')).toBe(true);
+  });
+
+  it('rejects other hosts and protocols', () => {
+    expect(originsMatch('https://evil.example', 'https://silesiaautoskup.pl')).toBe(false);
+    expect(originsMatch('https://silesiaautoskup.pl.evil.example', 'https://silesiaautoskup.pl')).toBe(false);
+    expect(originsMatch('https://wwwsilesiaautoskup.pl', 'https://silesiaautoskup.pl')).toBe(false);
+    expect(originsMatch('http://www.silesiaautoskup.pl', 'https://silesiaautoskup.pl')).toBe(false);
+    expect(originsMatch('null', 'https://silesiaautoskup.pl')).toBe(false);
   });
 });

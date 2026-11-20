@@ -121,12 +121,26 @@ export function passwordHashForSetup(password: string) {
   return `pbkdf2_sha256$${iterations}$${salt}$${hash.toString('base64url')}`;
 }
 
+// The site is served on both the apex domain and its www subdomain (Google Ads
+// sends visitors to www), so treat "www.example.com" and "example.com" with the
+// same protocol and port as the same origin.
+export function originsMatch(origin: string, expectedOrigin: string) {
+  try {
+    const actual = new URL(origin);
+    const expected = new URL(expectedOrigin);
+    const host = (url: URL) => url.host.toLowerCase().replace(/^www\./, '');
+    return actual.protocol === expected.protocol && host(actual) === host(expected);
+  } catch {
+    return false;
+  }
+}
+
 export function validMutationOrigin(request: Request) {
   const origin = request.headers.get('origin');
   if (!origin) return false;
   try {
     const expectedOrigin = siteConfig.siteUrl || new URL(request.url).origin;
-    return new URL(origin).origin === expectedOrigin;
+    return originsMatch(origin, expectedOrigin);
   } catch {
     return false;
   }
